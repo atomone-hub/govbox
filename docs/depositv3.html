@@ -15,16 +15,15 @@
   <p>$$ D_{t+1} = 
     \begin{cases}
       D_t \times (1 + \alpha_{up}) & n_t \geq N \\
-      \max(D_{\min}, D_{\max} - \delta \times (1 - \alpha_{down}) \times \sqrt[k]{| n_t - N |}& n_t \lt N
+      \max(D_{\min}, D_{\max} - \delta \times (1 - \alpha_{down}) \times \sqrt[k]{| n_t - N |} & n_t \lt N
     \end{cases} $$</p>
   <p>$$ \delta = \begin{cases} 
-      D_t \times \alpha_{down} & D_t = D_{\max} \\
+      D_t \times \alpha_{down}^2 & D_t = D_{\max} \\
       D_{\max} - D_t & D_t \lt D_{\max}
     \end{cases} $$</p>
 	<p>$$ k \in {1, 2, 3, ...} $$
     $$ 0 \lt \alpha_{down} \lt 1 $$
     $$ 0 \lt \alpha_{up} \lt 1 $$
-    $$ \alpha_{down} \lt \alpha_{up} $$
     $$ D_{\max} = \text{max recorded value before starting to decrease} $$</p>
   <table border="0">
     <tr>
@@ -48,11 +47,11 @@
           </tr>
           <tr>
             <td>Alpha UP</td>
-            <td><input id="alphaUp" type="number" value='0.05' min="0" max="1" step='0.01'></td>
+            <td><input id="alphaUp" type="number" value='0.2' min="0" max="1" step='0.01'></td>
           </tr>
           <tr>
             <td>Alpha DOWN</td>
-            <td><input id="alphaDown" type="number" value='0.025' min="0" max="1" step='0.01'></td>
+            <td><input id="alphaDown" type="number" value='0.05' min="0" max="1" step='0.01'></td>
           </tr>
           <tr>
             <td>k</td>
