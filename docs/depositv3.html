@@ -15,7 +15,7 @@
   <p>$$ D_{t+1} = 
     \begin{cases}
       D_t \times (1 + \alpha_{up}) & n_t \geq N \\
-      \max(D_{\min}, D_{\max} - \delta \times (1 - \alpha_{down}) \times \sqrt[k]{| n_t - N |} & n_t \lt N
+      \max(D_{\min}, D_{\max} - \delta \times (1 + \alpha_{down}) \times \sqrt[k]{| n_t - N |} & n_t \lt N
     \end{cases} $$</p>
   <p>$$ \delta = \begin{cases} 
       D_t \times \alpha_{down}^2 & D_t = D_{\max} \\
