@@ -6,6 +6,7 @@ let nbBlocks = 0
 let baseDeposit = parseFloat(document.getElementById('baseDeposit').value);
 let deposits = [];
 let numProposals = []
+let maxDeposit = baseDeposit
 for (var i = 0; i < nbBlocks; i++) {
     deposits.push({
         value: [i, baseDeposit]
@@ -71,7 +72,6 @@ let lastn = 0
 function computeDeposit(n) {
     let baseDeposit = parseFloat(document.getElementById('baseDeposit').value);
     let lastDeposit = baseDeposit;
-    let maxDeposit = lastDeposit
     if (deposits.length > 0) {
         lastDeposit = deposits[deposits.length - 1].value[1];
     }
