@@ -85,8 +85,7 @@ function computeDeposit(n) {
         let v = (Math.abs(n - N)) ** (1 / k);
         console.log(`k=${k} v=${v}`);
         percChange = 1 + alpha * v;
-        D = lastDeposit * percChange;
-        maxDeposit = D
+        D = maxDeposit - (maxDeposit - lastDeposit) * percChange;
     } else if (n >= N) {
         // increase only if there is new proposal(s) added since last computation
         if (n > lastn) {
@@ -96,7 +95,8 @@ function computeDeposit(n) {
             // added before N is reached should be ignored.
             percChange = (1 + alpha) ** (n - Math.max(lastn, N - 1));
         }
-        D = maxDeposit - (maxDeposit - lastDeposit) * percChange;
+        D = lastDeposit * percChange;
+        maxDeposit = D
     }
     lastn = n;
 
