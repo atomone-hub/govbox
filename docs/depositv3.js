@@ -87,7 +87,7 @@ function computeDeposit(n) {
         percChange = 1 + alpha * v;
         let diff = maxDeposit - lastDeposit;
         if (diff == 0) {
-            diff = 1;
+            diff = lastDeposit * alpha;
         }
         D = maxDeposit - (diff) * percChange;
     } else if (n >= N) {
