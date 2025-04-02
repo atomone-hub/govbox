@@ -131,14 +131,12 @@ function computeFee(n) {
     console.log(`targetBlockSize = ${targetBlockSize}`)
 
     var netGasDelta = 0;
-    let targetBlockUtilization = targetBlockSize / maxBlockSize;
     for (var i = beginningOfWindow; i < Math.min(beginningOfWindow + window, blockSize.length - 1); i++) {
-        let currentBlockUtilization = blockSize[i].value[1] / maxBlockSize;
-        netGasDelta += currentBlockUtilization - targetBlockUtilization;
+        let utilization = blockSize[i].value[1];
+        netGasDelta += utilization - targetBlockSize;
     }
     console.log(`netGasDelta = ${netGasDelta}`)
     var AIMD_F = lastFeeAIMD * (1 + (newLearningRate * (currentBlockSize - targetBlockSize)) / targetBlockSize) + delta * netGasDelta;
-
 
     var eip1559LearningRate = 0.125
     var eip1559_F = lastFeeEIP1559 * (1 + (eip1559LearningRate * (currentBlockSize - targetBlockSize)) / targetBlockSize);
@@ -146,7 +144,6 @@ function computeFee(n) {
     console.log(`lastFee EIP1559 = ${lastFeeEIP1559}`)
     console.log(`currentFeeAIMD = ${AIMD_F}`)
     console.log(`currentFeeEIP1559 = ${eip1559_F}`)
-
 
     AIMD_F = Math.max(AIMD_F, baseGasPrice)
     eip1559_F = Math.max(eip1559_F, baseGasPrice)
