@@ -1,50 +1,80 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
-		<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
-	</head>
-	<body>
-		<p>$$ blockConsumption := \frac{\sum_{n=0}^{Window} BlockSize(n)}{Window * maxBlockSize} $$</p>
-		<p>$$
-		newLearningRate = 
-		\begin{cases}
-		  blockConsumption < gamma, & min(MaxLearningRate, alpha + currentLearningRate) \\
-		  blockConsumption > 1- gamma, & min(MaxLearningRate, alpha + currentLearningRate) \\
-		  otherwise, & max(MinLearningRate, beta * currentLearningRate)
-		\end{cases}
-		$$</p>
-		<p>$$ newBaseFeeAIMD := currentBaseFeeAIMD * (1 + \frac{newLearningRate * (currentBlockSize - targetBlockSize)}{targetBlockSize}) + delta * netGasDelta(window) $$</p>
-		<p>$$ newBaseFeeEIP1559 := currentBaseFeeEIP1559 * (1 + \frac{LearningRate(0.125) * (currentBlockSize - targetBlockSize)}{targetBlockSize}) $$</p>
-		<table border=0>
-			<tr><td>
-			<table border=0>
-				<tr><td>currentBlockSize</td><td><input type=number id="currentBlockSize" min=0 value=20 /></td></tr>
-				<tr><td>targetBlockSize</td><td><input type=number id="targetBlockSize" min=0 value=30 /></td></tr>
-				<tr><td>maxBlockSize</td><td><input type=number id="maxBlockSize" min=0 value=60 /></td></tr>
-				<tr><td>baseGasPrice</td><td><input type=number id="baseGasFee" min=0 value=250 /></td></tr>
-				<tr><td>Alpha<td><input id="alpha" type=number value='0.025' min=0 max=1 step='0.1' /></td></tr>
-				<tr><td>Beta<td><input id="beta" type=number value='0.95' min=0 max=1 step='0.1' /></td></tr>
-				<tr><td>Window</td><td><input type=number id="window" value='8' min=1 step='1' /></td></tr>
-				<tr><td>Gamma</td><td><input type=number id="gamma" value='0.25' min=0 max=1 step='0.1' /></td></tr>
-				<tr><td>MaxLearning Rate<td><input id="maxLearningRate" type=number value='0.5' min=0 max=1 step='0.01' /></td></tr>
-				<tr><td>MinLearning Rate<td><input id="minLearningRate" type=number value='0.01' min=0 max=1 step='0.01' /></td></tr>
-				<tr><td>Delta<td><input id="delta" type=number value='0.0' min=0 max=1 step='0.01' /></td></tr>
-				<tr>
-					<td><button onclick='reset()'>Reset</button></td>
-					<td><button id='pauseResume' onclick='pauseResume()'>Pause</button></td>
-				</tr>
-			</table>
-					</td><td>
-						<style> .container {display: flex;justify-content: center;align-items: center;} .item {margin: auto;} </style>
-						<div class="container">
-						<div class="item" id="main" style="width:1200px;height:700px;"></div>
-		</div>
-					</td></tr>
-		</table>
-		<br/>
-		
-
-		<script src="feemarket.js" ></script>
-	</body>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.45">
+  <script src="https://go-echarts.github.io/go-echarts-assets/assets/echarts.min.js"></script>
+  <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+  .container {display: flex;justify-content: center;align-items: center;} .item {margin: auto;} 
+  </style>
+  <title></title>
+</head>
+<body>
+  <p>$$ blockConsumption := \frac{\sum_{n=0}^{Window} BlockSize(n)}{Window * maxBlockSize} $$</p>
+  <p>$$ newLearningRate = \begin{cases} blockConsumption &lt; gamma, & min(MaxLearningRate, alpha + currentLearningRate) \\ blockConsumption &gt; 1- gamma, & min(MaxLearningRate, alpha + currentLearningRate) \\ otherwise, & max(MinLearningRate, beta * currentLearningRate) \end{cases} $$</p>
+  <p>$$ newBaseFeeAIMD := currentBaseFeeAIMD * (1 + \frac{newLearningRate * (currentBlockSize - targetBlockSize)}{targetBlockSize}) + delta * netGasDelta(window) $$</p>
+  <p>$$ newBaseFeeEIP1559 := currentBaseFeeEIP1559 * (1 + \frac{LearningRate(0.125) * (currentBlockSize - targetBlockSize)}{targetBlockSize}) $$</p>
+  <table border="0">
+    <tr>
+      <td>
+        <table border="0">
+          <tr>
+            <td>currentBlockSize</td>
+            <td><input type="number" id="currentBlockSize" min="0" value="20"></td>
+          </tr>
+          <tr>
+            <td>targetBlockSize</td>
+            <td><input type="number" id="targetBlockSize" min="0" value="30"></td>
+          </tr>
+          <tr>
+            <td>maxBlockSize</td>
+            <td><input type="number" id="maxBlockSize" min="0" value="60"></td>
+          </tr>
+          <tr>
+            <td>baseGasPrice</td>
+            <td><input type="number" id="baseGasFee" min="0" value="250"></td>
+          </tr>
+          <tr>
+            <td>Alpha</td>
+            <td><input id="alpha" type="number" value='0.025' min="0" max="1" step='0.1'></td>
+          </tr>
+          <tr>
+            <td>Beta</td>
+            <td><input id="beta" type="number" value='0.95' min="0" max="1" step='0.1'></td>
+          </tr>
+          <tr>
+            <td>Window</td>
+            <td><input type="number" id="window" value='8' min="1" step='1'></td>
+          </tr>
+          <tr>
+            <td>Gamma</td>
+            <td><input type="number" id="gamma" value='0.25' min="0" max="1" step='0.1'></td>
+          </tr>
+          <tr>
+            <td>MaxLearning Rate</td>
+            <td><input id="maxLearningRate" type="number" value='0.5' min="0" max="1" step='0.01'></td>
+          </tr>
+          <tr>
+            <td>MinLearning Rate</td>
+            <td><input id="minLearningRate" type="number" value='0.01' min="0" max="1" step='0.01'></td>
+          </tr>
+          <tr>
+            <td>Delta</td>
+            <td><input id="delta" type="number" value='0.0' min="0" max="1" step='0.01'></td>
+          </tr>
+          <tr>
+            <td><button onclick='reset()'>Reset</button></td>
+            <td><button id='pauseResume' onclick='pauseResume()'>Pause</button></td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <div class="container">
+          <div class="item" id="main" style="width:1200px;height:700px;"></div>
+        </div>
+      </td>
+    </tr>
+  </table><br>
+  <script src="feemarket.js"></script>
+</body>
 </html>
