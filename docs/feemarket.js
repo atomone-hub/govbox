@@ -3,12 +3,14 @@ var myChart = echarts.init(chartDom);
 var option;
 
 let nbBlocks = 2
-let defaultFee = 250
+let defaultFee = 0.01
 let feesAIMD = [];
 let fees_eip1559 = [];
+let defaultBlockSize = 0;
 let blockSize = []
+let maxBlockSize = 30000000
 let currentLearningRate = 0
-let N = 2
+
 for (var i = 0; i < nbBlocks; i++) {
     feesAIMD.push({
         value: [i, defaultFee]
@@ -17,7 +19,7 @@ for (var i = 0; i < nbBlocks; i++) {
         value: [i, defaultFee]
     });
     blockSize.push({
-        value: [i, 20]
+        value: [i, defaultBlockSize]
     });
 }
 option = {
@@ -46,7 +48,7 @@ option = {
     }, {
         name: 'currentBlockSize',
         min: 0,
-        max: 80,
+        max: maxBlockSize,
     }, ],
 
 };
@@ -56,10 +58,10 @@ function reset() {
     fees_eip1559 = []
     blockSize = []
     nbBlocks = 0;
-    document.getElementById('baseGasPrice').value = 250;
-    document.getElementById('currentBlockSize').value = 20;
-    document.getElementById('targetBlockSize').value = 30;
-    document.getElementById('maxBlockSize').value = 60;
+    document.getElementById('baseGasPrice').value = defaultFee;
+    document.getElementById('currentBlockSize').value = defaultBlockSize;
+    document.getElementById('targetBlockSize').value = maxBlockSize / 2;
+    document.getElementById('maxBlockSize').value = maxBlockSize;
     document.getElementById('alpha').value = 0.025;
     document.getElementById('beta').value = 0.25;
     document.getElementById('window').value = 8;
@@ -67,7 +69,6 @@ function reset() {
     document.getElementById('maxLearningRate').value = 0.5;
     document.getElementById('minLearningRate').value = 0.01;
     document.getElementById('delta').value = 0.0;
-
 }
 
 let paused = false
@@ -89,7 +90,7 @@ function computeFee(n) {
         lastFeeAIMD = feesAIMD[feesAIMD.length - 1].value[1]
         lastFeeEIP1559 = fees_eip1559[fees_eip1559.length - 1].value[1]
     }
-    let baseGasPrice = parseFloat(document.getElementById('baseGasFee').value);
+    let baseGasPrice = parseFloat(document.getElementById('baseGasPrice').value);
     let alpha = parseFloat(document.getElementById('alpha').value);
     let beta = parseFloat(document.getElementById('beta').value);
     let delta = parseFloat(document.getElementById('delta').value);
