@@ -402,7 +402,7 @@ func propJSONCmd() *ffcli.Command {
 				"title":    title,
 				"summary":  string(bz),
 				"deposit":  *deposit,
-				"metadata": "",
+				"metadata": "ipfs://CID",
 			}
 			bz, err = json.MarshalIndent(data, "", "  ")
 			if err != nil {
