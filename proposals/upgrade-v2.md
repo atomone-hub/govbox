@@ -1,3 +1,9 @@
+# Disclaimer
+
+This proposal replaces [proposal #7](https://www.mintscan.io/atomone/proposals/7), which was mistakenly submitted as a text proposal. Please ignore proposal #7, votes on this proposal will have no effect on the upgrade.
+
+# AtomOne v2 upgrade
+
 The AtomOne v2 release is a major release that will follow the standard
 governance process. The on-chain voting period typically lasts 3 weeks. 
 
