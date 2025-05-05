@@ -81,7 +81,7 @@ Users may find it harder to predict the amount of deposit required for a proposa
 
 # Audit
 
-An audit covering the entire AtomOne codebase and the `x/gov` module including the original implementation of the dynamic deposit (proposal [#6](https://gov.atom.one/proposals/6)) started in February 2025 and has been completed in March 2025,  with no findings. The audit report is available on the AtomOne blockchain code repository.
+An audit covering the entire AtomOne codebase and the `x/gov` module including the original implementation of the dynamic deposit (proposal [#6](https://gov.atom.one/proposals/6)) started in February 2025 and has been completed in March 2025, with no findings. The audit report is available on the AtomOne blockchain code repository.
 The changes proposed by this revision will undergo an additional audit of the incremental difference before a software upgrade that includes the presented system is submitted on the mainnet.
 
 # Upgrade process
@@ -90,7 +90,7 @@ The implementation of the revised model of the dynamic deposit is contingent upo
 
 # Codebase
 
-- [https://github.com/atomone-hub/atomone/tree/giunatale/dynamic-deposit/time-independent-increase/docs/architecture/adr-003-governance-proposal-deposit-auto-throttler.md](https://github.com/atomone-hub/atomone/tree/giunatale/dynamic-deposit/time-independent-increase/docs/architecture/adr-003-governance-proposal-deposit-auto-throttler.md)
+- [https://github.com/atomone-hub/atomone/blob/97b6b989931dbd710cf91f33afd489f292502a9b/docs/architecture/adr-003-governance-proposal-deposit-auto-throttler.md](https://github.com/atomone-hub/atomone/blob/97b6b989931dbd710cf91f33afd489f292502a9b/docs/architecture/adr-003-governance-proposal-deposit-auto-throttler.md)
 - [https://github.com/atomone-hub/atomone/pull/69](https://github.com/atomone-hub/atomone/pull/69)
 - [https://github.com/atomone-hub/atomone/pull/65](https://github.com/atomone-hub/atomone/pull/65)
 - [https://github.com/atomone-hub/atomone/pull/105](https://github.com/atomone-hub/atomone/pull/105)
