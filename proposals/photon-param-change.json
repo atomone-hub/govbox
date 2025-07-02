@@ -1,0 +1,18 @@
+{
+ "messages": [
+  {
+   "@type": "/atomone.photon.v1.MsgUpdateParams",
+   "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+   "params": {
+    "mint_disabled": false,
+    "tx_fee_exceptions": [
+      "/atomone.photon.v1.MsgMintPhoton"
+    ]
+   }
+  }
+ ],
+ "metadata": "ipfs://CID",
+ "deposit": "512000000uatone",
+ "title": "Set PHOTON as the only fee token",
+ "summary": "# Proposal\n\nThis proposal aims to update the `x/photon` module parameters in order to make\nPHOTON the only fee token, except for the `MsgMintPhoton` message.\n\n# Motivation\n\nWhile PHOTON was designed to be the only fee token, we decided to temporarily\ncontinue accepting ATONE for fees to ensure a smooth transition to AtomOne v2.\n\nGiven the 3 weeks of voting period for a proposal, we think it is time to\nschedule the end of this transition time and update the `x/photon` module\nparameters accordingly.\n\n# Implementation\n\nThe current x/photon module parameters are:\n\n```json\n{\n  \"params\": {\n    \"mint_disabled\": false,\n    \"tx_fee_exceptions\": [\n      \"*\"\n    ]\n  }\n}\n```\n\nThe proposal will change them into:\n\n```json\n{\n  \"params\": {\n    \"mint_disabled\": false,\n    \"tx_fee_exceptions\": [\n      \"/atomone.photon.v1.MsgMintPhoton\"\n    ]\n  }\n}\n```\n\nNo other changes are required in validator configuration, if they have followed\nthe [v2 upgrade guide](https://github.com/atomone-hub/atomone/blob/7c88091ef64628baa098b2251000f9af0f81c049/UPGRADING.md),\ntheir `minimum-gas-prices` should already contain a value expressed in ATONE\nand a value expressed in PHOTON.\n\n# Consequences\n\nOnce this proposal passes, a transaction that contains other messages than\n`MsgMintPhoton` will be rejected if the fee token is not PHOTON. The expected\nerror is `invalid fee token: fee denom uatone is not allowed`.\n\n# Voting options\n\nYes: You are in favor of having the PHOTON as the only fee token, as stipulated\nin the AtomOne Constitution.\nNo: You are against having PHOTON as the only fee token.\nABSTAIN: You wish to contribute to the quorum but you formally decline to vote\neither for or against the proposal.\n"
+}
