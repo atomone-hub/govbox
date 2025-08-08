@@ -26,7 +26,7 @@ var rootCmd = &ffcli.Command{
 	ShortHelp:  "Set of commands for GovGen proposals.",
 	Subcommands: []*ffcli.Command{
 		tallyCmd(), accountsCmd(), genesisCmd(), autoStakingCmd(),
-		distributionCmd(), top20Cmd(), propJSONCmd(),
+		distributionCmd(), top20Cmd(), proposalCmd(), propJSONCmd(),
 		signTxCmd(), vestingCmd(),
 		tallyGenesisCmd(), shrinkVotesCmd(), gnoAirdropCmd(),
 	},
@@ -367,48 +367,6 @@ func top20Cmd() *ffcli.Command {
 				})
 			}
 			table.Render()
-			return nil
-		},
-	}
-}
-
-func propJSONCmd() *ffcli.Command {
-	fs := flag.NewFlagSet("propJSON", flag.ContinueOnError)
-	deposit := fs.String("deposit", "512000000uatone", "Proposal deposit")
-	return &ffcli.Command{
-		Name:       "propJSON",
-		ShortUsage: "govbox propJSON <path/to/proposal.md>",
-		ShortHelp:  "Prints the JSON format compatible with the submit-proposal CLI gov module",
-		FlagSet:    fs,
-		Exec: func(ctx context.Context, args []string) error {
-			if err := fs.Parse(args); err != nil {
-				return err
-			}
-			if fs.NArg() != 1 {
-				return flag.ErrHelp
-			}
-			bz, err := os.ReadFile(fs.Arg(0))
-			if err != nil {
-				return err
-			}
-			if len(string(bz)) > 10000 {
-				return fmt.Errorf("Description has more than 10000 characters (%d)", len(string(bz)))
-			}
-			// Fetch title from markdown
-			title := strings.SplitN(string(bz), "\n", 2)[0]
-			title = title[2:] // Remove the '# ' prefix
-
-			data := map[string]any{
-				"title":    title,
-				"summary":  string(bz),
-				"deposit":  *deposit,
-				"metadata": "ipfs://CID",
-			}
-			bz, err = json.MarshalIndent(data, "", "  ")
-			if err != nil {
-				return err
-			}
-			fmt.Println(string(bz))
 			return nil
 		},
 	}
