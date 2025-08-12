@@ -118,6 +118,7 @@ func proposalUpgradeCmd() *ffcli.Command {
 	plan := fs.String("plan", "", "Plan name. If not provided shorten the tag argument (for example v3.0.0 becomes v3)")
 	return &ffcli.Command{
 		Name:       "upgrade",
+		FlagSet:    fs,
 		ShortUsage: "govbox upgrade TAG <path/to/upgrade.md>",
 		ShortHelp:  "Prints an upgrade proposal for the `tx gov submit-proposal` command",
 		Exec: func(ctx context.Context, args []string) error {
@@ -147,7 +148,7 @@ func proposalUpgradeCmd() *ffcli.Command {
 				"@type":     "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
 				"authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
 				"plan": map[string]any{
-					"name":                  *plan,
+					"name":                  plan,
 					"time":                  "0001-01-01T00:00:00Z",
 					"height":                height,
 					"info":                  info,
