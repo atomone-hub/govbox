@@ -1,13 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"strings"
 
+	"github.com/google/go-github/v24/github"
 	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
@@ -27,7 +31,7 @@ func proposalCmd() *ffcli.Command {
 		Name:      "proposal",
 		ShortHelp: "Prints JSON format compatible with the `tx gov submit-proposal` command",
 		Subcommands: []*ffcli.Command{
-			proposalTextCmd(), proposalAmendmentCmd(),
+			proposalTextCmd(), proposalAmendmentCmd(), proposalUpgradeCmd(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			return flag.ErrHelp
@@ -50,29 +54,21 @@ func proposalTextCmd() *ffcli.Command {
 			if fs.NArg() != 1 {
 				return flag.ErrHelp
 			}
-			bz, err := os.ReadFile(fs.Arg(0))
+			summary, err := readProposalSummary(fs.Arg(0))
 			if err != nil {
 				return err
 			}
-			if len(string(bz)) > 10000 {
-				return fmt.Errorf("Description has more than 10000 characters (%d)", len(string(bz)))
-			}
 			// Fetch title from markdown
-			title := strings.SplitN(string(bz), "\n", 2)[0]
+			title := strings.SplitN(summary, "\n", 2)[0]
 			title = title[2:] // Remove the '# ' prefix
 
 			data := map[string]any{
 				"title":    title,
-				"summary":  string(bz),
+				"summary":  summary,
 				"deposit":  *deposit,
 				"metadata": "ipfs://CID",
 			}
-			bz, err = json.MarshalIndent(data, "", "  ")
-			if err != nil {
-				return err
-			}
-			fmt.Println(string(bz))
-			return nil
+			return printPropopal(data)
 		},
 	}
 }
@@ -110,12 +106,155 @@ func proposalAmendmentCmd() *ffcli.Command {
 				"deposit":  *deposit,
 				"metadata": "ipfs://CID",
 			}
-			bz, err = json.MarshalIndent(data, "", "  ")
+			return printPropopal(data)
+		},
+	}
+}
+
+func proposalUpgradeCmd() *ffcli.Command {
+	fs := flag.NewFlagSet("upgrade", flag.ContinueOnError)
+	deposit := fs.String("deposit", "512000000uatone", "Proposal deposit")
+	height := fs.String("height", "0", "Halt height")
+	plan := fs.String("plan", "", "Plan name. If not provided shorten the tag argument (for example v3.0.0 becomes v3)")
+	return &ffcli.Command{
+		Name:       "upgrade",
+		ShortUsage: "govbox upgrade TAG <path/to/upgrade.md>",
+		ShortHelp:  "Prints an upgrade proposal for the `tx gov submit-proposal` command",
+		Exec: func(ctx context.Context, args []string) error {
+			if err := fs.Parse(args); err != nil {
+				return err
+			}
+			if fs.NArg() != 2 {
+				return flag.ErrHelp
+			}
+			var (
+				tag      = fs.Arg(0)
+				descFile = fs.Arg(1)
+			)
+			info, err := cosmovisorBinInfo(tag)
 			if err != nil {
 				return err
 			}
-			fmt.Println(string(bz))
-			return nil
+			summary, err := readProposalSummary(descFile)
+			if err != nil {
+				return err
+			}
+			if *plan == "" {
+				p := tag[:strings.Index(tag, ".")]
+				plan = &p
+			}
+			msg := map[string]any{
+				"@type":     "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+				"authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+				"plan": map[string]any{
+					"name":                  *plan,
+					"time":                  "0001-01-01T00:00:00Z",
+					"height":                height,
+					"info":                  info,
+					"upgraded_client_state": nil,
+				},
+			}
+			data := map[string]any{
+				"title":    fmt.Sprintf("AtomOne %s Upgrade", *plan),
+				"summary":  summary,
+				"messages": []map[string]any{msg},
+				"deposit":  *deposit,
+				"metadata": "ipfs://CID",
+			}
+			return printPropopal(data)
 		},
 	}
+}
+
+func readProposalSummary(path string) (string, error) {
+	bz, err := os.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+	d := string(bz)
+	if len(d) > 10000 {
+		return "", fmt.Errorf("Description has more than 10000 characters (%d)", len(d))
+	}
+	return d, nil
+}
+
+func cosmovisorBinInfo(tag string) (string, error) {
+	// fetch release assets
+	client := github.NewClient(nil)
+	const (
+		owner = "atomone-hub"
+		repo  = "atomone"
+	)
+	rr, _, err := client.Repositories.GetReleaseByTag(context.Background(), owner, repo, tag)
+	if err != nil {
+		return "", err
+	}
+	var (
+		expectedPrefix = fmt.Sprintf("atomoned-%s-", tag)
+		binaries       = make(map[string]string)
+		checksumFile   = fmt.Sprintf("SHA256SUMS-%s.txt", tag)
+		checksums      = make(map[string]string)
+	)
+	// loop on assets to fill the checksums
+	for _, a := range rr.Assets {
+		if a.GetName() != checksumFile {
+			continue
+		}
+		// fetch checksum file
+		resp, err := http.Get(a.GetBrowserDownloadURL())
+		// r, _, err := client.Repositories.DownloadReleaseAsset(context.Background(), owner, repo, a.GetID())
+		if err != nil {
+			return "", err
+		}
+		defer resp.Body.Close()
+		r := bufio.NewReader(resp.Body)
+		for {
+			line, _, err := r.ReadLine()
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				return "", err
+			}
+			// parse line
+			var (
+				checksum string
+				binary   string
+			)
+			_, _ = fmt.Sscanf(string(line), "%s %s", &checksum, &binary)
+			checksums[binary] = checksum
+		}
+		break
+	}
+	// loop on binary assets
+	for _, a := range rr.Assets {
+		if strings.HasPrefix(expectedPrefix, a.GetName()) {
+			continue
+		}
+		value := a.GetBrowserDownloadURL() + "?checksum=sha256:" + checksums[a.GetName()]
+		switch a.GetName()[len(expectedPrefix):] {
+		case "darwin-amd64":
+			binaries["darwin/amd64"] = value
+		case "linux-amd64":
+			binaries["linux/amd64"] = value
+		case "darwin-arm64":
+			binaries["darwin/arm64"] = value
+		case "linux-arm64":
+			binaries["linux/arm64"] = value
+		}
+	}
+	bz, err := json.Marshal(map[string]any{"binaries": binaries})
+	if err != nil {
+		return "", err
+	}
+	return string(bz), nil
+}
+
+func printPropopal(data map[string]any) error {
+	bz, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(bz))
+	return nil
 }
