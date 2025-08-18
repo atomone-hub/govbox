@@ -6,9 +6,9 @@ chain binary at the halt-height specified in the on-chain proposal
 
 # Release Binary & Upgrade Resources
 
-IMPORTANT: Note that AtomOne v3.0.0 binary MUST be used.
+IMPORTANT: Note that AtomOne v3.0.1 binary MUST be used.
 
-The release can be found [here](https://github.com/atomone-hub/atomone/releases/tag/v3.0.0).
+The release can be found [here](https://github.com/atomone-hub/atomone/releases/tag/v3.0.1).
 
 The upgrade guide can be found [here](https://github.com/atomone-hub/atomone/blob/main/UPGRADING.md).
 
