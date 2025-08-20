@@ -126,18 +126,12 @@ The integration of the `x/dynamicfee` module is contingent upon the successful c
 ## Codebase
 
 [https://github.com/atomone-hub/atomone/blob/main/x/dynamicfee/README.md](https://github.com/atomone-hub/atomone/blob/main/x/dynamicfee/README.md)
-
 [https://github.com/atomone-hub/atomone/blob/main/x/dynamicfee/AIMD.md](https://github.com/atomone-hub/atomone/blob/main/x/dynamicfee/AIMD.md)
-
 [https://github.com/atomone-hub/atomone/pull/114](https://github.com/atomone-hub/atomone/pull/114/)
-
 [https://github.com/atomone-hub/atomone/pull/170](https://github.com/atomone-hub/atomone/pull/170)
 
 ## Voting options
 
 - Yes: You are in favor of adding the DynamicFee module.
-
 - No: You are against having the DynamicFee module.
-
 - ABSTAIN - You wish to contribute to the quorum but you formally decline to vote either for or against the proposal.
-
