@@ -22,7 +22,7 @@ This release introduces the following major new features:
 - Make `x/gov` proposals deposits dynamic
 - Burn `x/gov` proposals deposit if percentage of no votes > params.BurnDepositNoThreshold when tallying
 
-The other changes can be found in the changelog [here](https://github.com/atomone-hub/atomone/blob/main/CHANGELOG.md#v300).
+The other changes can be found in the changelog [here](https://github.com/atomone-hub/atomone/blob/main/CHANGELOG.md#v301).
 
 # Testing
 
