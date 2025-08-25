@@ -5,7 +5,7 @@
       "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
       "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
       "plan": {
-        "height": "0",
+        "height": "3240000",
         "info": "{\"binaries\":{\"darwin/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.1/atomoned-v3.0.1-darwin-amd64?checksum=sha256:dc6839c0b42abe7b38116987f9b67dbec162e2375bcf68d2b83da5a365a72d1d\",\"darwin/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.1/atomoned-v3.0.1-darwin-arm64?checksum=sha256:c1c9c216f5be9cb40dadc520e3d21378820c06bc8076dda348fc589a456c196b\",\"linux/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.1/atomoned-v3.0.1-linux-amd64?checksum=sha256:4d5fb490839fc16b8aead97739337c17094ceef27b23d35568317e99d773d9ff\",\"linux/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.1/atomoned-v3.0.1-linux-arm64?checksum=sha256:395e74b496dfe65bcb3544c609101458c3a9017d3d39fd4211629e607ca32325\"}}",
         "name": "v3",
         "time": "0001-01-01T00:00:00Z",
