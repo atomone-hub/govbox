@@ -31,7 +31,7 @@ func proposalCmd() *ffcli.Command {
 		Name:      "proposal",
 		ShortHelp: "Prints JSON format compatible with the `tx gov submit-proposal` command",
 		Subcommands: []*ffcli.Command{
-			proposalTextCmd(), proposalAmendmentCmd(), proposalUpgradeCmd(),
+			proposalTextCmd(), proposalAmendmentCmd(), proposalAmendmentDiffCmd(), proposalUpgradeCmd(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			return flag.ErrHelp
@@ -103,6 +103,45 @@ func proposalAmendmentCmd() *ffcli.Command {
 				"title":    "Constitution Amendment",
 				"summary":  "# Constitution Amendment\n\nThis is a proposal to amend the constitution of Atom One.\n\nThe amendment is as follows:\n\n```diff\n" + msg["amendment"].(string) + "\n```",
 				"messages": []map[string]any{msg},
+				"deposit":  *deposit,
+				"metadata": "ipfs://CID",
+			}
+			return printPropopal(data)
+		},
+	}
+}
+
+func proposalAmendmentDiffCmd() *ffcli.Command {
+	fs := flag.NewFlagSet("amendment-diff", flag.ContinueOnError)
+	deposit := fs.String("deposit", "512000000uatone", "Proposal deposit")
+	return &ffcli.Command{
+		Name:       "amendment-diff",
+		ShortUsage: "govbox proposal amendment-diff <path/to/amendment.diff>",
+		ShortHelp:  "Prints a constitution amendment proposal for the `tx gov submit-proposal` command",
+		LongHelp:   "The argument must be a patch/diff file",
+		FlagSet:    fs,
+		Exec: func(ctx context.Context, args []string) error {
+			if err := fs.Parse(args); err != nil {
+				return err
+			}
+			if fs.NArg() != 1 {
+				return flag.ErrHelp
+			}
+			bz, err := os.ReadFile(fs.Arg(0))
+			if err != nil {
+				return err
+			}
+
+			data := map[string]any{
+				"title":   "Constitution Amendment",
+				"summary": "# Constitution Amendment\n\nThis is a proposal to amend the constitution of Atom One.\n\nThe amendment is as follows:\n\n```diff\n" + string(bz) + "\n```",
+				"messages": []map[string]any{
+					{
+						"@type":     "/atomone.gov.v1.MsgProposeConstitutionAmendment",
+						"authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+						"amendment": string(bz),
+					},
+				},
 				"deposit":  *deposit,
 				"metadata": "ipfs://CID",
 			}
