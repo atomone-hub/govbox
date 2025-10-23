@@ -1,0 +1,19 @@
+{
+  "deposit": "512000000uatone",
+  "messages": [
+    {
+      "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+      "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+      "plan": {
+        "height": "5900000",
+        "info": "{\"binaries\":{\"darwin/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.3/atomoned-v3.0.3-darwin-amd64?checksum=sha256:1c71b87565c771276f740818c89ac7ba18da37a1e3ceaaf5852880dc9e61d241\",\"darwin/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.3/atomoned-v3.0.3-darwin-arm64?checksum=sha256:67cb9dc2d1d65642ef9d31b59401e2371c0c10f1a3fff6b7aa2faf4d500e6ad6\",\"linux/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.3/atomoned-v3.0.3-linux-amd64?checksum=sha256:0afef6a68581a7101f49abf476a33c8f722b8b1f98fe99ca0c81ab29346f7ca4\",\"linux/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v3.0.3/atomoned-v3.0.3-linux-arm64?checksum=sha256:bac96464bd3d2f7853ede62b789cd75366dfb4e862ef202bee113b34198ba21b\"}}",
+        "name": "v3",
+        "time": "0001-01-01T00:00:00Z",
+        "upgraded_client_state": null
+      }
+    }
+  ],
+  "metadata": "https://common.xyz/atomone/discussion/1304878-signaling-proposal-atomone-v3-upgrade",
+  "summary": "# AtomOne v3 upgrade\n\nThe AtomOne v3 release is a major release that will follow the standard\ngovernance process. The on-chain voting period typically lasts 3 days.\n\nOn governance vote approval, validators will be required to update the AtomOne\nchain binary at the halt-height specified in the on-chain proposal\n\n# Release Binary \u0026 Upgrade Resources\n\nIMPORTANT: Note that AtomOne v3.0.3 binary MUST be used.\n\nThe release can be found [here](https://github.com/atomone-hub/atomone/releases/tag/v3.0.3).\n\nThe upgrade guide can be found [here](https://github.com/atomone-hub/atomone/blob/main/UPGRADING.md).\n\n# Proposed Release Contents\n\nThis release introduces the following major new features:\n\n- Add upgrade code to mint photon from 50% of bond denom funds of Community Pool and 90% of Treasury DAO address #157\n- Make `x/gov` quorum dynamic\n- Add the `x/dynamicfee` module and use the EIP-15559 AIMD algorithm\n- Make `x/gov` proposals deposits dynamic\n- Burn `x/gov` proposals deposit if percentage of no votes \u003e params.BurnDepositNoThreshold when tallying\n\nThe other changes can be found in the changelog [here](https://github.com/atomone-hub/atomone/blob/main/CHANGELOG.md#v303).\n\n# Schedule\n\nWith a three-week voting period, in the event the proposal is supported, it\nshould pass around Nov 13rd. The upgrade will be expected to take place the\nfollowing week, at Nov 19th. The specific block halt-height is [5,900,000](https://www.mintscan.io/atomone/block/5900000).\n\n# Testing\n\nThe v3 release has gone through rigorous testing, including e2e tests and\nintegration tests.\n\n# Potential risk factors\n\nAlthough very extensive testing and simulation will have taken place there\nalways exists a risk that the AtomOne experience problems due to potential bugs\nor errors from the new features. In the case of serious problems, validators\nshould stop operating the network immediately. Coordination with validators\nwill happen in the #testnet-private channel of the AtomOne Community Discord to\ncreate and execute a contingency plan. Likely this will be an emergency release\nwith fixes or the recommendation to consider the upgrade aborted and revert\nback to the previous release of AtomOne (v2.1.0)\n\n# Governance votes\n\nThe following items summarize the voting options and what it means for this\nproposal:\n\nYES - You agree that the AtomOne chain should be updated with this release.\nNO - You disagree that the AtomOne chain should be updated with this release.\nABSTAIN - You wish to contribute to the quorum but you formally decline to vote\neither for or against the proposal.\n",
+  "title": "AtomOne v3 Upgrade"
+}
