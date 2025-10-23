@@ -30,7 +30,7 @@ The other changes can be found in the changelog [here](https://github.com/atomon
 
 With a three-week voting period, in the event the proposal is supported, it
 should pass around Nov 13rd. The upgrade will be expected to take place the
-following week, at Nov 19th. The specific block halt-height is [5,900,000](https://www.mintscan.io/atomone/block/5900000).
+following week, at Nov 19th. The specific block halt-height is [5,902,000](https://www.mintscan.io/atomone/block/5902000).
 
 # Testing
 
