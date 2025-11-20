@@ -1,0 +1,13 @@
+{
+ "messages": [
+  {
+   "@type": "/atomone.gov.v1.MsgUpdateParams",
+   "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+   "params": {"max_deposit_period":"1209600s","voting_period":"1814400s","threshold":"0.667000000000000000","burn_vote_quorum":false,"burn_proposal_deposit_prevote":true,"min_deposit_ratio":"0.010000000000000000","constitution_amendment_threshold":"0.900000000000000000","law_threshold":"0.900000000000000000","quorum_timeout":"1728000s","max_voting_period_extension":"86400s","quorum_check_count":"0","min_deposit_throttler":{"floor_value":[{"denom":"uatone","amount":"512000000"}],"update_period":"604800s","target_active_proposals":"2","increase_ratio":"0.050000000000000000","decrease_ratio":"0.025000000000000000","decrease_sensitivity_target_distance":"2"},"min_initial_deposit_throttler":{"floor_value":[{"denom":"uatone","amount":"51200000"}],"update_period":"86400s","target_proposals":"5","increase_ratio":"0.010000000000000000","decrease_ratio":"0.005000000000000000","decrease_sensitivity_target_distance":"2"},"burn_deposit_no_threshold":"0.800000000000000000","quorum_range":{"max":"0.500000000000000000","min":"0.100000000000000000"},"constitution_amendment_quorum_range":{"max":"0.500000000000000000","min":"0.100000000000000000"},"law_quorum_range":{"max":"0.500000000000000000","min":"0.100000000000000000"}}
+  }
+ ],
+ "metadata": "ipfs://CID",
+ "deposit": "10000000uatone",
+ "title": "Update dynamic min deposit and min initial deposit floor values",
+ "summary": "# Proposal\n\nDuring the v3 upgrade the floor values of the newly introduced dynamic min\ndeposit and min initial deposit were erroneously set to amounts that are too\nlow. This proposal aims at increasing these two amounts to match the previous\nstatic values of respectively 512 ATONE and 51.2 ATONE.\n\n# Voting options\n\n- Yes: You are in favor of setting the min deposit and min initial deposit floor values to more sensible amounts.\n- No: You are against increasing the floor values of dynamic min deposit and min initial deposit.\n- ABSTAIN: You wish to contribute to the quorum but you formally decline to vote either for or against the proposal.\n"
+}
