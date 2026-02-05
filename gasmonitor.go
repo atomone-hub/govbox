@@ -9,23 +9,26 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
+	"time"
 
-	rpcclient "github.com/cometbft/cometbft/rpc/client"
-	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
 	"github.com/dustin/go-humanize"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/pkg/browser"
+
+	rpcclient "github.com/cometbft/cometbft/rpc/client"
+	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
 )
 
 // BlockGasData holds gas data for a single block
 type BlockGasData struct {
-	Height   int64   `json:"height"`
-	TotalGas int64   `json:"total_gas"`
-	GasPrice float64 `json:"gas_price"`
-	TxCount  int     `json:"tx_count"`
+	Height    int64     `json:"height"`
+	TotalGas  int64     `json:"total_gas"`
+	GasPrice  float64   `json:"gas_price"`
+	TxCount   int       `json:"tx_count"`
+	Timestamp time.Time `json:"timestamp"`
 }
 
 // GasCache holds cached block data
@@ -40,6 +43,7 @@ func gasMonitorCmd() *ffcli.Command {
 	rpcEndpoint := fs.String("rpc", "https://atomone-rpc.allinbits.com:443", "RPC endpoint URL")
 	startBlock := fs.Int64("start", 0, "Start block height (0 = latest - numBlocks)")
 	numBlocks := fs.Int("num", 100, "Number of blocks to fetch")
+	untilStable := fs.Bool("until-stable", false, "Keep fetching until gas stabilizes below 1,000,000")
 
 	return &ffcli.Command{
 		Name:       "gasmonitor",
@@ -50,12 +54,12 @@ func gasMonitorCmd() *ffcli.Command {
 			if err := fs.Parse(args); err != nil {
 				return err
 			}
-			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks)
+			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks, *untilStable)
 		},
 	}
 }
 
-func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int) error {
+func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int, untilStable bool) error {
 	// Create RPC client
 	client, err := rpchttp.New(rpcEndpoint, "/websocket")
 	if err != nil {
@@ -76,7 +80,11 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 
 	endBlock := startBlock + int64(numBlocks) - 1
 
-	fmt.Printf("Fetching blocks %d to %d from %s\n", startBlock, endBlock, rpcEndpoint)
+	if untilStable {
+		fmt.Printf("Fetching blocks from %d until gas stabilizes (below 1,000,000) from %s\n", startBlock, rpcEndpoint)
+	} else {
+		fmt.Printf("Fetching blocks %d to %d from %s\n", startBlock, endBlock, rpcEndpoint)
+	}
 
 	// Load cache
 	cache := loadCache(gasMonitorCacheFile)
@@ -85,10 +93,31 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 	blocksData := make([]*BlockGasData, 0, numBlocks)
 	fetchCount := 0
 
-	for h := startBlock; h <= endBlock; h++ {
+	const stableGasThreshold int64 = 1_000_000
+	const consecutiveStableBlocks = 10
+	stableCount := 0
+
+	for h := startBlock; ; h++ {
+		// Check if we should stop (when not in untilStable mode)
+		if !untilStable && h > endBlock {
+			break
+		}
+
 		// Check cache first
 		if data, ok := cache.Blocks[h]; ok {
 			blocksData = append(blocksData, data)
+			// Check stability condition
+			if untilStable {
+				if data.TotalGas < stableGasThreshold {
+					stableCount++
+					if stableCount >= consecutiveStableBlocks {
+						fmt.Printf("Gas stabilized below %d for %d consecutive blocks\n", stableGasThreshold, consecutiveStableBlocks)
+						break
+					}
+				} else {
+					stableCount = 0
+				}
+			}
 			continue
 		}
 
@@ -96,6 +125,11 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 		data, err := fetchBlockGasData(ctx, client, h)
 		if err != nil {
 			fmt.Printf("Warning: failed to fetch block %d: %v\n", h, err)
+			// If we hit the latest block, stop
+			if untilStable {
+				fmt.Printf("Reached latest available block at height %d\n", h-1)
+				break
+			}
 			continue
 		}
 
@@ -106,6 +140,19 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 		// Progress indicator
 		if fetchCount%10 == 0 {
 			fmt.Printf("Fetched %d blocks...\n", fetchCount)
+		}
+
+		// Check stability condition
+		if untilStable {
+			if data.TotalGas < stableGasThreshold {
+				stableCount++
+				if stableCount >= consecutiveStableBlocks {
+					fmt.Printf("Gas stabilized below %d for %d consecutive blocks\n", stableGasThreshold, consecutiveStableBlocks)
+					break
+				}
+			} else {
+				stableCount = 0
+			}
 		}
 	}
 
@@ -134,6 +181,12 @@ func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) 
 		return nil, fmt.Errorf("failed to fetch block results: %w", err)
 	}
 
+	// Fetch block header to get timestamp
+	block, err := client.Block(ctx, &height)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch block header: %w", err)
+	}
+
 	var totalGas int64
 	for _, txResult := range blockResults.TxsResults {
 		totalGas += txResult.GasUsed
@@ -147,10 +200,11 @@ func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) 
 	}
 
 	return &BlockGasData{
-		Height:   height,
-		TotalGas: totalGas,
-		GasPrice: gasPrice,
-		TxCount:  len(blockResults.TxsResults),
+		Height:    height,
+		TotalGas:  totalGas,
+		GasPrice:  gasPrice,
+		TxCount:   len(blockResults.TxsResults),
+		Timestamp: block.Block.Header.Time,
 	}, nil
 }
 
@@ -301,9 +355,11 @@ func generateGasChart(blocksData []*BlockGasData) error {
 			Formatter: opts.FuncOpts(`function(params) {
 				var idx = params[0].dataIndex;
 				var result = '<b>Block ' + params[0].axisValue + '</b><br/>';
+				result += timestamps[idx] + '<br/>';
 				result += 'Transactions: ' + txCounts[idx] + '<br/>';
 				for (var i = 0; i < params.length; i++) {
 					var p = params[i];
+					if (p.seriesName === 'Gas Threshold') continue;
 					result += p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
 				}
 				return result;
@@ -317,7 +373,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 			Type: "value",
 		}),
 		charts.WithInitializationOpts(opts.Initialization{
-			Width:  "1400px",
+			Width:  "100%",
 			Height: "600px",
 		}),
 	)
@@ -328,6 +384,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 	xAxis := make([]string, len(blocksData))
 	blockHeights := make([]int64, len(blocksData))
 	txCounts := make([]int, len(blocksData))
+	timestamps := make([]string, len(blocksData))
 	gasBarData := make([]opts.BarData, len(blocksData))
 	gasPriceLineData := make([]opts.LineData, len(blocksData))
 
@@ -336,6 +393,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 		xAxis[i] = humanize.Comma(block.Height)
 		blockHeights[i] = block.Height
 		txCounts[i] = block.TxCount
+		timestamps[i] = block.Timestamp.Format("2006-01-02 15:04:05 UTC")
 		gasBarData[i] = opts.BarData{Value: block.TotalGas}
 		gasPriceLineData[i] = opts.LineData{Value: block.GasPrice}
 		if block.TotalGas > maxGas {
@@ -346,16 +404,18 @@ func generateGasChart(blocksData []*BlockGasData) error {
 	// Add click handler and tooltip data
 	blockHeightsJSON, _ := json.Marshal(blockHeights)
 	txCountsJSON, _ := json.Marshal(txCounts)
+	timestampsJSON, _ := json.Marshal(timestamps)
 	clickHandler := fmt.Sprintf(`
 		var blockHeights = %s;
 		var txCounts = %s;
+		var timestamps = %s;
 		goecharts_%s.on('click', function(params) {
 			if (params.seriesName === 'Total Gas') {
 				var height = blockHeights[params.dataIndex];
 				window.open('https://www.mintscan.io/atomone/block/' + height, '_blank');
 			}
 		});
-	`, string(blockHeightsJSON), string(txCountsJSON), bar.ChartID)
+	`, string(blockHeightsJSON), string(txCountsJSON), string(timestampsJSON), bar.ChartID)
 
 	bar.SetXAxis(xAxis).
 		AddSeries("Total Gas", gasBarData).
