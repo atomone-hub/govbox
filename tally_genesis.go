@@ -176,34 +176,8 @@ func tallyGenesis(goCtx context.Context, genesisFile, nodeAddr string, nodeConsP
 		}
 	}
 
-	// create governors
-	for i, a := range govAddrs {
-		msg := govv1types.NewMsgCreateGovernor(sdk.AccAddress(a),
-			govv1types.NewGovernorDescription(fmt.Sprintf("governor%d", i), "", "", "", ""))
-		_, err := govMsgServer.CreateGovernor(ctx, msg)
-		if err != nil {
-			panic(err)
-		}
-	}
-	// delegate to governors
-	if numGovs > 0 {
-		govIdx := 0
-		for i, d := range delAddrs {
-			if i > numDels/2 {
-				break // only half of the delegators delegate to a governor
-			}
-			msg := govv1types.NewMsgDelegateGovernor(d, govtypes.GovernorAddress(govAddrs[govIdx]))
-			_, err := govMsgServer.DelegateGovernor(ctx, msg)
-			if err != nil {
-				panic(err)
-			}
-			// next govenoer
-			govIdx++
-			if govIdx >= numGovs {
-				govIdx = 0
-			}
-		}
-	}
+	// Note: Governor functionality was removed in atomone v3.x
+	_ = govAddrs // unused but kept for potential future use
 
 	// second all the other validator delegations
 	for _, a := range delAddrs {
@@ -307,13 +281,6 @@ func newContext(ctx context.Context, keys map[string]*storetypes.KVStoreKey) sdk
 		WithContext(ctx).WithBlockTime(time.Now())
 }
 
-func convertAddrsToGovAddrs(addrs []sdk.AccAddress) []govtypes.GovernorAddress {
-	govAddrs := make([]govtypes.GovernorAddress, len(addrs))
-	for i, addr := range addrs {
-		govAddrs[i] = govtypes.GovernorAddress(addr)
-	}
-	return govAddrs
-}
 
 func printJSON(name string, bz []byte) {
 	var m map[string]any
