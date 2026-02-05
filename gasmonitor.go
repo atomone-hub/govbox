@@ -389,6 +389,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 	gasPriceLineData := make([]opts.LineData, len(blocksData))
 
 	var maxGas int64
+	var maxGasPrice float64
 	for i, block := range blocksData {
 		xAxis[i] = humanize.Comma(block.Height)
 		blockHeights[i] = block.Height
@@ -399,6 +400,15 @@ func generateGasChart(blocksData []*BlockGasData) error {
 		if block.TotalGas > maxGas {
 			maxGas = block.TotalGas
 		}
+		if block.GasPrice > maxGasPrice {
+			maxGasPrice = block.GasPrice
+		}
+	}
+
+	// Set gas price Y-axis max with some headroom (minimum 0.2)
+	gasPriceAxisMax := 0.2
+	if maxGasPrice > gasPriceAxisMax {
+		gasPriceAxisMax = maxGasPrice * 1.1 // 10% headroom
 	}
 
 	// Add click handler and tooltip data
@@ -423,7 +433,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 			Name: "Gas Price (photon)",
 			Type: "value",
 			Min:  0,
-			Max:  0.2,
+			Max:  gasPriceAxisMax,
 		})
 
 	// Create line chart for gas price
