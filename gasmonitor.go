@@ -445,7 +445,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 				Smooth:     true,
 			}),
 			charts.WithItemStyleOpts(opts.ItemStyle{
-				Color: "#ee6666",
+				Color: "#3ba272",
 			}),
 		)
 
@@ -460,7 +460,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 				YAxisIndex: 0,
 			}),
 			charts.WithItemStyleOpts(opts.ItemStyle{
-				Color: "#91cc75",
+				Color: "#ee6666",
 			}),
 			charts.WithLineStyleOpts(opts.LineStyle{
 				Type:  "dashed",
