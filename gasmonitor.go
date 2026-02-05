@@ -25,6 +25,7 @@ type BlockGasData struct {
 	Height   int64   `json:"height"`
 	TotalGas int64   `json:"total_gas"`
 	GasPrice float64 `json:"gas_price"`
+	TxCount  int     `json:"tx_count"`
 }
 
 // GasCache holds cached block data
@@ -149,6 +150,7 @@ func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) 
 		Height:   height,
 		TotalGas: totalGas,
 		GasPrice: gasPrice,
+		TxCount:  len(blockResults.TxsResults),
 	}, nil
 }
 
@@ -296,6 +298,16 @@ func generateGasChart(blocksData []*BlockGasData) error {
 			AxisPointer: &opts.AxisPointer{
 				Type: "cross",
 			},
+			Formatter: opts.FuncOpts(`function(params) {
+				var idx = params[0].dataIndex;
+				var result = '<b>Block ' + params[0].axisValue + '</b><br/>';
+				result += 'Transactions: ' + txCounts[idx] + '<br/>';
+				for (var i = 0; i < params.length; i++) {
+					var p = params[i];
+					result += p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
+				}
+				return result;
+			}`),
 		}),
 		charts.WithXAxisOpts(opts.XAxis{
 			Name: "Block Height",
@@ -314,18 +326,36 @@ func generateGasChart(blocksData []*BlockGasData) error {
 	const gasThreshold int64 = 50_000_000 // Gas limit before price increase
 
 	xAxis := make([]string, len(blocksData))
+	blockHeights := make([]int64, len(blocksData))
+	txCounts := make([]int, len(blocksData))
 	gasBarData := make([]opts.BarData, len(blocksData))
 	gasPriceLineData := make([]opts.LineData, len(blocksData))
 
 	var maxGas int64
 	for i, block := range blocksData {
 		xAxis[i] = humanize.Comma(block.Height)
+		blockHeights[i] = block.Height
+		txCounts[i] = block.TxCount
 		gasBarData[i] = opts.BarData{Value: block.TotalGas}
 		gasPriceLineData[i] = opts.LineData{Value: block.GasPrice}
 		if block.TotalGas > maxGas {
 			maxGas = block.TotalGas
 		}
 	}
+
+	// Add click handler and tooltip data
+	blockHeightsJSON, _ := json.Marshal(blockHeights)
+	txCountsJSON, _ := json.Marshal(txCounts)
+	clickHandler := fmt.Sprintf(`
+		var blockHeights = %s;
+		var txCounts = %s;
+		goecharts_%s.on('click', function(params) {
+			if (params.seriesName === 'Total Gas') {
+				var height = blockHeights[params.dataIndex];
+				window.open('https://www.mintscan.io/atomone/block/' + height, '_blank');
+			}
+		});
+	`, string(blockHeightsJSON), string(txCountsJSON), bar.ChartID)
 
 	bar.SetXAxis(xAxis).
 		AddSeries("Total Gas", gasBarData).
@@ -375,6 +405,10 @@ func generateGasChart(blocksData []*BlockGasData) error {
 
 	// Create combined chart by overlapping bar and line
 	bar.Overlap(line)
+
+	// Add click handler JavaScript
+	bar.AddJSFuncs(clickHandler)
+
 	page.AddCharts(bar)
 
 	// Render to temp file and open in browser
