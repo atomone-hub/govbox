@@ -18,7 +18,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
+	appparams "github.com/atomone-hub/atomone/app/params"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 )
 
 var rootCmd = &ffcli.Command{
@@ -29,7 +32,7 @@ var rootCmd = &ffcli.Command{
 		distributionCmd(), top20Cmd(), proposalCmd(), propJSONCmd(),
 		signTxCmd(), vestingCmd(),
 		tallyGenesisCmd(), shrinkVotesCmd(), gnoAirdropCmd(),
-		gasMonitorCmd(),
+		gasMonitorCmd(), gnoAccountsCmd(),
 	},
 	Exec: func(ctx context.Context, args []string) error {
 		return flag.ErrHelp
@@ -159,6 +162,58 @@ func accountsCmd() *ffcli.Command {
 			}
 
 			accounts := getAccounts(delegsByAddr, votesByAddr, valsByAddr, balancesByAddr, accountTypesByAddr)
+
+			bz, err := json.MarshalIndent(accounts, "", "  ")
+			if err != nil {
+				return err
+			}
+			if err := os.WriteFile(accountsFile, bz, 0o666); err != nil {
+				return err
+			}
+			fmt.Printf("%s file created.\n", accountsFile)
+
+			return nil
+		},
+	}
+}
+
+func gnoAccountsCmd() *ffcli.Command {
+	return &ffcli.Command{
+		Name:       "gno-accounts",
+		ShortUsage: "govbox gno-accounts <path>",
+		ShortHelp:  "Consolidate the data in <path> into a single file <path>/accounts.json for gno/independence-day",
+		Exec: func(ctx context.Context, args []string) error {
+			if len(args) == 0 {
+				return flag.ErrHelp
+			}
+			cfg := sdk.GetConfig()
+			cfg.SetBech32PrefixForAccount(appparams.Bech32PrefixAccAddr, appparams.Bech32PrefixAccPub)
+			cfg.SetBech32PrefixForValidator(appparams.Bech32PrefixValAddr, appparams.Bech32PrefixValPub)
+			cfg.SetBech32PrefixForConsensusNode(appparams.Bech32PrefixConsAddr, appparams.Bech32PrefixConsPub)
+			cfg.Seal()
+
+			var (
+				datapath     = args[0]
+				accountsFile = filepath.Join(datapath, "accounts.json")
+			)
+			valsByAddr, err := parseValidatorsByAddr(datapath, map[string]govtypes.WeightedVoteOptions{})
+			if err != nil {
+				return err
+			}
+			delegsByAddr, err := parseDelegationsByAddr(datapath)
+			if err != nil {
+				return err
+			}
+			balancesByAddr, err := parseBalancesByAddr(datapath, "")
+			if err != nil {
+				return err
+			}
+			accountTypesByAddr, err := parseAccountTypesPerAddr(datapath)
+			if err != nil {
+				return err
+			}
+
+			accounts := getGnoAccounts(delegsByAddr, valsByAddr, balancesByAddr, accountTypesByAddr)
 
 			bz, err := json.MarshalIndent(accounts, "", "  ")
 			if err != nil {

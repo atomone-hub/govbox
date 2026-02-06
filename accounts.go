@@ -72,7 +72,7 @@ func getAccounts(
 	delegsByAddr map[string][]stakingtypes.Delegation,
 	votesByAddr map[string]govtypes.WeightedVoteOptions,
 	valsByAddr map[string]govtypes.ValidatorGovInfo,
-	balancesByAddr map[string]sdk.Coin,
+	balancesByAddr map[string]sdk.Coins,
 	accountTypesPerAddr map[string]string,
 ) []Account {
 	accountsByAddr := make(map[string]Account, len(delegsByAddr))
@@ -116,7 +116,7 @@ func getAccounts(
 	for addr, balance := range balancesByAddr {
 		acc, ok := accountsByAddr[addr]
 		if ok {
-			acc.LiquidAmount = balance.Amount.ToLegacyDec()
+			acc.LiquidAmount = balance[0].Amount.ToLegacyDec()
 			accountsByAddr[addr] = acc
 		} else {
 			accType := accountTypesPerAddr[addr]
@@ -128,13 +128,80 @@ func getAccounts(
 			accountsByAddr[addr] = Account{
 				Address:      addr,
 				Type:         accType,
-				LiquidAmount: balance.Amount.ToLegacyDec(),
+				LiquidAmount: balance[0].Amount.ToLegacyDec(),
 				StakedAmount: sdk.ZeroDec(),
 			}
 		}
 	}
 	// Map to slice with deterministic order
 	var accounts []Account
+	for _, addr := range slices.Sorted(maps.Keys(accountsByAddr)) {
+		accounts = append(accounts, accountsByAddr[addr])
+	}
+	return accounts
+}
+
+type GnoAccount struct {
+	Address string    `json:"address"`
+	Coins   sdk.Coins `json:"coins"`
+}
+
+// getGnoAccounts returns the list of all account with their vote and
+// power, from direct or indirect votes.
+func getGnoAccounts(
+	delegsByAddr map[string][]stakingtypes.Delegation,
+	valsByAddr map[string]govtypes.ValidatorGovInfo,
+	balancesByAddr map[string]sdk.Coins,
+	accountTypesPerAddr map[string]string,
+) []GnoAccount {
+	accountsByAddr := make(map[string]GnoAccount, len(delegsByAddr))
+	// Feed delegations
+	for addr, delegs := range delegsByAddr {
+		account := GnoAccount{
+			Address: addr,
+			Coins:   sdk.NewCoins(),
+		}
+		accType := accountTypesPerAddr[addr]
+		if accType == "/cosmos.auth.v1beta1.ModuleAccount" ||
+			accType == "/ibc.applications.interchain_accounts.v1.InterchainAccount" {
+			// Ignore ModuleAccount & InterchainAccount
+			continue
+		}
+		for _, deleg := range delegs {
+			// Find validator
+			val, ok := valsByAddr[deleg.ValidatorAddress]
+			if !ok {
+				// Validator isn't in active set or jailed, ignore
+				continue
+			}
+
+			// Compute delegation voting power
+			delegVotingPower := deleg.GetShares().MulInt(val.BondedTokens).Quo(val.DelegatorShares)
+			account.Coins = account.Coins.Add(sdk.NewCoin("duatone", delegVotingPower.TruncateInt()))
+		}
+		accountsByAddr[addr] = account
+	}
+	// Feed balances
+	for addr, balance := range balancesByAddr {
+		acc, ok := accountsByAddr[addr]
+		if ok {
+			acc.Coins = acc.Coins.Add(balance...)
+			accountsByAddr[addr] = acc
+		} else {
+			accType := accountTypesPerAddr[addr]
+			if accType == "/cosmos.auth.v1beta1.ModuleAccount" ||
+				accType == "/ibc.applications.interchain_accounts.v1.InterchainAccount" {
+				// Ignore ModuleAccount & InterchainAccount
+				continue
+			}
+			accountsByAddr[addr] = GnoAccount{
+				Address: addr,
+				Coins:   balance,
+			}
+		}
+	}
+	// Map to slice with deterministic order
+	var accounts []GnoAccount
 	for _, addr := range slices.Sorted(maps.Keys(accountsByAddr)) {
 		accounts = append(accounts, accountsByAddr[addr])
 	}

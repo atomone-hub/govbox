@@ -268,7 +268,7 @@ func parseProp(path string) govtypes.Proposal {
 	return prop
 }
 
-func parseBalancesByAddr(path, denom string) (map[string]sdk.Coin, error) {
+func parseBalancesByAddr(path, denom string) (map[string]sdk.Coins, error) {
 	f, err := os.Open(filepath.Join(path, "balances.json"))
 	if err != nil {
 		return nil, err
@@ -279,13 +279,14 @@ func parseBalancesByAddr(path, denom string) (map[string]sdk.Coin, error) {
 	if err != nil {
 		return nil, err
 	}
-	balancesByAddr := make(map[string]sdk.Coin)
+	balancesByAddr := make(map[string]sdk.Coins)
 	for _, b := range balances {
-		for _, c := range b.Coins {
-			// Filter denom
-			if c.Denom == denom {
-				balancesByAddr[b.Address] = c
-				break
+		if denom == "" {
+			balancesByAddr[b.Address] = b.Coins
+		} else {
+			ok, c := b.Coins.Find(denom)
+			if ok {
+				balancesByAddr[b.Address] = sdk.NewCoins(c)
 			}
 		}
 	}
