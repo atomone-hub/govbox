@@ -1,0 +1,18 @@
+{
+    "messages": [
+        {
+            "@type": "/atomone.gov.v1.MsgExecLegacyContent",
+            "content": {
+                "@type": "/ibc.core.client.v1.ClientUpdateProposal",
+                "title": "Recover IBC Expired Client from Stargaze",
+                "description": "This proposal aims to recover the expired client 07-tendermint-6 belonging to the ICS20 Stargaze connection and update with the new client 07-tendermint-42. Similar proposal has been submited to Stargaze governance.",
+                "subject_client_id": "07-tendermint-6",
+                "substitute_client_id": "07-tendermint-42"
+            },
+            "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt"
+        }
+    ],
+    "deposit": "1000000stake",
+    "title": "Recover IBC Expired Client from Stargaze",
+    "summary": "This proposal aims to recover the expired client 07-tendermint-6 belonging to the ICS20 Stargaze connection and update with the new client 07-tendermint-42. Similar proposal has been submited to Stargaze governance."
+}
