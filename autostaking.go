@@ -11,6 +11,8 @@ import (
 
 	tmjson "github.com/cometbft/cometbft/libs/json"
 
+	"cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )
@@ -35,26 +37,26 @@ func autoStaking(genesisPath string) error {
 		return fmt.Errorf("unmarshal auth: %w", err)
 	}
 	var (
-		minTokens           = sdk.NewInt(25_000_000)
-		supply              = sdk.ZeroInt()
-		totalStake          = sdk.ZeroInt()
+		minTokens           = math.NewInt(25_000_000)
+		supply              = math.ZeroInt()
+		totalStake          = math.ZeroInt()
 		numStakes           = 0
 		validatorLen        = 30
 		validators          = make([]int64, validatorLen)
 		stakeds             int64
 		stakes              = make(map[int]int)
-		stakeSplitCondition = sdk.NewInt(1_000_000_000_000)
+		stakeSplitCondition = math.NewInt(1_000_000_000_000)
 
 		// This algorithm splits the stake into parts and stake those parts one by
 		// one into the validator that has the less stake.
-		basicAlgo = func(balIdx int, stake sdk.Int) {
+		basicAlgo = func(balIdx int, stake math.Int) {
 			// to prevent staking multiple times over the same validator
 			// adjust split amount for the whale account
-			splitStake := sdk.NewInt(1)
+			splitStake := math.NewInt(1)
 			switch {
-			case stake.LT(sdk.NewInt(500_000_000)):
+			case stake.LT(math.NewInt(500_000_000)):
 				splitStake = stake.QuoRaw(5)
-			case stake.LT(sdk.NewInt(10_000_000_000)):
+			case stake.LT(math.NewInt(10_000_000_000)):
 				splitStake = stake.QuoRaw(10)
 			default:
 				splitStake = stake.QuoRaw(20)
@@ -64,7 +66,7 @@ func autoStaking(genesisPath string) error {
 				// find validator which has the less stake
 				valIdx := slices.Index(validators, slices.Min(validators))
 
-				staked := sdk.MinInt(stake, splitStake).Int64()
+				staked := math.MinInt(stake, splitStake).Int64()
 				stakeds += staked
 				validators[valIdx] += staked
 				stakes[balIdx]++
@@ -77,7 +79,7 @@ func autoStaking(genesisPath string) error {
 		// staking distrib from terra
 		// https://github.com/terra-money/core/blob/release/v2.0/app/app.go#L841
 		valIdx    = 0
-		terraAlgo = func(balIdx int, stake sdk.Int) {
+		terraAlgo = func(balIdx int, stake math.Int) {
 			// to prevent staking multiple times over the same validator
 			// adjust split amount for the whale account
 			splitStake := stakeSplitCondition
@@ -91,7 +93,7 @@ func autoStaking(genesisPath string) error {
 			// stake 1_000_000_000_000 to val2
 			// stake 200_000_000_000 to val3
 			for ; stake.GTE(sdk.DefaultPowerReduction); stake = stake.Sub(splitStake) {
-				staked := sdk.MinInt(stake, splitStake).Int64()
+				staked := math.MinInt(stake, splitStake).Int64()
 				stakeds += staked
 				validators[valIdx%validatorLen] += staked
 				stakes[balIdx]++

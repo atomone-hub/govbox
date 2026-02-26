@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"cosmossdk.io/math"
+
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
@@ -32,9 +34,9 @@ func TestGetAccounts(t *testing.T) {
 		newVal = func(addr sdk.ValAddress, bonded, shares int64, vote govtypes.WeightedVoteOptions) govtypes.ValidatorGovInfo {
 			return govtypes.ValidatorGovInfo{
 				Address:             addr,
-				BondedTokens:        sdk.NewInt(bonded),
-				DelegatorShares:     sdk.NewDec(shares),
-				DelegatorDeductions: sdk.ZeroDec(),
+				BondedTokens:        math.NewInt(bonded),
+				DelegatorShares:     math.LegacyNewDec(shares),
+				DelegatorDeductions: math.LegacyZeroDec(),
 				Vote:                vote,
 			}
 		}
@@ -42,29 +44,29 @@ func TestGetAccounts(t *testing.T) {
 			return stakingtypes.Delegation{
 				DelegatorAddress: delAddr,
 				ValidatorAddress: valAddr,
-				Shares:           sdk.NewDec(shares),
+				Shares:           math.LegacyNewDec(shares),
 			}
 		}
 		// Some votes
 		noVote  govtypes.WeightedVoteOptions
 		voteYes = govtypes.WeightedVoteOptions{{
 			Option: govtypes.OptionYes,
-			Weight: sdk.NewDec(1),
+			Weight: math.LegacyNewDec(1),
 		}}
 		voteNo = govtypes.WeightedVoteOptions{{
 			Option: govtypes.OptionNo,
-			Weight: sdk.NewDec(1),
+			Weight: math.LegacyNewDec(1),
 		}}
 		voteAbstain = govtypes.WeightedVoteOptions{{
 			Option: govtypes.OptionAbstain,
-			Weight: sdk.NewDec(1),
+			Weight: math.LegacyNewDec(1),
 		}}
 		// Some initial balances
-		balancesByAddr = map[string]sdk.Coin{
-			accAddr1:       sdk.NewInt64Coin("uatom", 100),
-			accAddr2:       sdk.NewInt64Coin("uatom", 200),
-			valAccAddr1Str: sdk.NewInt64Coin("uatom", 300),
-			valAccAddr2Str: sdk.NewInt64Coin("uatom", 400),
+		balancesByAddr = map[string]sdk.Coins{
+			accAddr1:       sdk.NewCoins(sdk.NewInt64Coin("uatom", 100)),
+			accAddr2:       sdk.NewCoins(sdk.NewInt64Coin("uatom", 200)),
+			valAccAddr1Str: sdk.NewCoins(sdk.NewInt64Coin("uatom", 300)),
+			valAccAddr2Str: sdk.NewCoins(sdk.NewInt64Coin("uatom", 400)),
 		}
 		// Account types
 		accountTypesByAddr = map[string]string{
@@ -87,26 +89,26 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -121,26 +123,26 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -161,34 +163,34 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(1000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(1000),
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000),
+						Amount:           math.LegacyNewDec(1000),
 					}},
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000),
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000),
+						Amount:           math.LegacyNewDec(1000000 - 1000),
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -212,37 +214,37 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(1000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(1000),
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000),
+						Amount:           math.LegacyNewDec(1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000),
 					Vote:         voteNo,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000),
+						Amount:           math.LegacyNewDec(1000000 - 1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -263,31 +265,31 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(1000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(1000),
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000),
+						Amount:           math.LegacyNewDec(1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -312,38 +314,38 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(1000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(1000),
 					Vote:         voteYes,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000),
+						Amount:           math.LegacyNewDec(1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000),
 					Vote:         voteNo,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000),
+						Amount:           math.LegacyNewDec(1000000 - 1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -373,17 +375,17 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(3000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(3000),
 					Delegations: []Delegation{
 						{
 							ValidatorAddress: valAddr1Str,
-							Amount:           sdk.NewDec(1000),
+							Amount:           math.LegacyNewDec(1000),
 							Vote:             voteNo,
 						},
 						{
 							ValidatorAddress: valAddr2Str,
-							Amount:           sdk.NewDec(2000),
+							Amount:           math.LegacyNewDec(2000),
 							Vote:             voteYes,
 						},
 					},
@@ -391,32 +393,32 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000),
 					Vote:         voteNo,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000),
+						Amount:           math.LegacyNewDec(1000000 - 1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.NewDec(2000000 - 2000),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyNewDec(2000000 - 2000),
 					Vote:         voteYes,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr2Str,
-						Amount:           sdk.NewDec(2000000 - 2000),
+						Amount:           math.LegacyNewDec(2000000 - 2000),
 						Vote:             voteYes,
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -447,18 +449,18 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(3000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(3000),
 					Vote:         voteAbstain,
 					Delegations: []Delegation{
 						{
 							ValidatorAddress: valAddr1Str,
-							Amount:           sdk.NewDec(1000),
+							Amount:           math.LegacyNewDec(1000),
 							Vote:             voteNo,
 						},
 						{
 							ValidatorAddress: valAddr2Str,
-							Amount:           sdk.NewDec(2000),
+							Amount:           math.LegacyNewDec(2000),
 							Vote:             voteYes,
 						},
 					},
@@ -466,32 +468,32 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000),
 					Vote:         voteNo,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000),
+						Amount:           math.LegacyNewDec(1000000 - 1000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.NewDec(2000000 - 2000),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyNewDec(2000000 - 2000),
 					Vote:         voteYes,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr2Str,
-						Amount:           sdk.NewDec(2000000 - 2000),
+						Amount:           math.LegacyNewDec(2000000 - 2000),
 						Vote:             voteYes,
 					}},
 				},
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},
@@ -524,18 +526,18 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr1,
 					Type:         "accAddr1Type",
-					LiquidAmount: sdk.NewDec(100),
-					StakedAmount: sdk.NewDec(1000 + 2000),
+					LiquidAmount: math.LegacyNewDec(100),
+					StakedAmount: math.LegacyNewDec(1000 + 2000),
 					Vote:         voteAbstain,
 					Delegations: []Delegation{
 						{
 							ValidatorAddress: valAddr1Str,
-							Amount:           sdk.NewDec(1000),
+							Amount:           math.LegacyNewDec(1000),
 							Vote:             voteNo,
 						},
 						{
 							ValidatorAddress: valAddr2Str,
-							Amount:           sdk.NewDec(2000),
+							Amount:           math.LegacyNewDec(2000),
 							Vote:             voteYes,
 						},
 					},
@@ -543,17 +545,17 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      accAddr2,
 					Type:         "accAddr2Type",
-					LiquidAmount: sdk.NewDec(200),
-					StakedAmount: sdk.NewDec(3000 + 4000),
+					LiquidAmount: math.LegacyNewDec(200),
+					StakedAmount: math.LegacyNewDec(3000 + 4000),
 					Delegations: []Delegation{
 						{
 							ValidatorAddress: valAddr1Str,
-							Amount:           sdk.NewDec(3000),
+							Amount:           math.LegacyNewDec(3000),
 							Vote:             voteNo,
 						},
 						{
 							ValidatorAddress: valAddr2Str,
-							Amount:           sdk.NewDec(4000),
+							Amount:           math.LegacyNewDec(4000),
 							Vote:             voteYes,
 						},
 					},
@@ -561,20 +563,20 @@ func TestGetAccounts(t *testing.T) {
 				{
 					Address:      valAccAddr1Str,
 					Type:         "valAccAddr1Type",
-					LiquidAmount: sdk.NewDec(300),
-					StakedAmount: sdk.NewDec(1000000 - 1000 - 3000),
+					LiquidAmount: math.LegacyNewDec(300),
+					StakedAmount: math.LegacyNewDec(1000000 - 1000 - 3000),
 					Vote:         voteNo,
 					Delegations: []Delegation{{
 						ValidatorAddress: valAddr1Str,
-						Amount:           sdk.NewDec(1000000 - 1000 - 3000),
+						Amount:           math.LegacyNewDec(1000000 - 1000 - 3000),
 						Vote:             voteNo,
 					}},
 				},
 				{
 					Address:      valAccAddr2Str,
 					Type:         "valAccAddr2Type",
-					LiquidAmount: sdk.NewDec(400),
-					StakedAmount: sdk.ZeroDec(),
+					LiquidAmount: math.LegacyNewDec(400),
+					StakedAmount: math.LegacyZeroDec(),
 				},
 			},
 		},

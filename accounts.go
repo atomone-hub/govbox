@@ -5,6 +5,8 @@ import (
 	"maps"
 	"slices"
 
+	"cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
@@ -13,14 +15,14 @@ import (
 type Account struct {
 	Address      string
 	Type         string
-	LiquidAmount sdk.Dec
-	StakedAmount sdk.Dec
+	LiquidAmount math.LegacyDec
+	StakedAmount math.LegacyDec
 	Vote         govtypes.WeightedVoteOptions
 	Delegations  []Delegation
 }
 
 type Delegation struct {
-	Amount           sdk.Dec
+	Amount           math.LegacyDec
 	ValidatorAddress string
 	Vote             govtypes.WeightedVoteOptions
 }
@@ -31,7 +33,7 @@ type Delegation struct {
 func (a Account) voteWeights() voteMap {
 	v := newVoteMap()
 	if a.StakedAmount.IsZero() {
-		v[govtypes.OptionEmpty] = sdk.OneDec()
+		v[govtypes.OptionEmpty] = math.LegacyOneDec()
 		return v
 	}
 	if len(a.Vote) == 0 {
@@ -87,8 +89,8 @@ func getAccounts(
 		account := Account{
 			Address:      addr,
 			Type:         accType,
-			LiquidAmount: sdk.ZeroDec(),
-			StakedAmount: sdk.ZeroDec(),
+			LiquidAmount: math.LegacyZeroDec(),
+			StakedAmount: math.LegacyZeroDec(),
 			Vote:         votesByAddr[addr],
 		}
 		for _, deleg := range delegs {
@@ -129,7 +131,7 @@ func getAccounts(
 				Address:      addr,
 				Type:         accType,
 				LiquidAmount: balance[0].Amount.ToLegacyDec(),
-				StakedAmount: sdk.ZeroDec(),
+				StakedAmount: math.LegacyZeroDec(),
 			}
 		}
 	}

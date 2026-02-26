@@ -20,6 +20,8 @@ import (
 
 	appparams "github.com/atomone-hub/atomone/app/params"
 
+	"cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 )
@@ -295,8 +297,8 @@ func distributionCmd() *ffcli.Command {
 			for _, y := range strings.Split(*yesMultipliers, ",") {
 				for _, n := range strings.Split(*noMultipliers, ",") {
 					distriParams := defaultDistriParams()
-					distriParams.yesVotesMultiplier = sdk.MustNewDecFromStr(y)
-					distriParams.noVotesMultiplier = sdk.MustNewDecFromStr(n)
+					distriParams.yesVotesMultiplier = math.LegacyMustNewDecFromStr(y)
+					distriParams.noVotesMultiplier = math.LegacyMustNewDecFromStr(n)
 					distriParamss = append(distriParamss, distriParams)
 				}
 			}
@@ -392,7 +394,7 @@ func top20Cmd() *ffcli.Command {
 				return err
 			}
 			defer f.Close()
-			var addresses map[string]sdk.Int
+			var addresses map[string]math.Int
 			err = json.NewDecoder(f).Decode(&addresses)
 			if err != nil {
 				return err
@@ -403,7 +405,7 @@ func top20Cmd() *ffcli.Command {
 			})
 			var (
 				top20    = make([]string, 20)
-				totalAmt = sdk.NewInt(0)
+				totalAmt = math.NewInt(0)
 			)
 			for i, addr := range addrs {
 				if i < 20 {
@@ -484,7 +486,7 @@ func gnoAirdropCmd() *ffcli.Command {
 			defer f.Close()
 			// scan file line by line
 			scanner := bufio.NewScanner(f)
-			supply := sdk.ZeroInt()
+			supply := math.ZeroInt()
 			type entry struct {
 				Addr  string
 				Alloc sdk.Coin
@@ -502,9 +504,9 @@ func gnoAirdropCmd() *ffcli.Command {
 				a = append(a, entry{addr, alloc})
 			}
 
-			expSupply := sdk.MustNewDecFromStr("700000000000000")
+			expSupply := math.LegacyMustNewDecFromStr("700000000000000")
 			fact := expSupply.Quo(supply.ToLegacyDec())
-			newSup := sdk.ZeroInt()
+			newSup := math.ZeroInt()
 			for _, e := range a {
 				newAmt := e.Alloc.Amount.ToLegacyDec().Mul(fact)
 				newAlloc := sdk.NewCoin(e.Alloc.Denom, newAmt.RoundInt())

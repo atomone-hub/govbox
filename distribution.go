@@ -10,7 +10,8 @@ import (
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"github.com/pkg/browser"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"cosmossdk.io/math"
+
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 )
 
@@ -33,21 +34,21 @@ type airdrop struct {
 	// params hold the distribution parameters that resulted in this airdrop
 	params distriParams
 	// addresses contains the airdrop amount per address.
-	addresses       map[string]sdk.Int
+	addresses       map[string]math.Int
 	addressesDetail []addrAmtDetail
 	// nonVotersMultiplier ensures that non-voters don't hold more than 1/3 of
 	// the supply
-	nonVotersMultiplier sdk.Dec
+	nonVotersMultiplier math.LegacyDec
 	// $ATOM distribution
 	atom distrib
 	// $ATONE distribution
 	atone distrib
 	// Amount of $ATOM slashed for the ICF
-	icfSlash sdk.Dec
+	icfSlash math.LegacyDec
 	// Amount minted for CP
-	communityPool sdk.Dec
+	communityPool math.LegacyDec
 	// Amount minted for reserved address
-	reservedAddr sdk.Dec
+	reservedAddr math.LegacyDec
 }
 
 type addrAmtDetail struct {
@@ -58,33 +59,33 @@ type addrAmtDetail struct {
 	AbsDetail    amtDetail `json:"absDetail"`
 	DnvDetail    amtDetail `json:"dnvDetail"`
 	LiquidDetail amtDetail `json:"liquidDetail"`
-	Total        sdk.Dec   `json:"total"`
+	Total        math.LegacyDec   `json:"total"`
 }
 
 type amtDetail struct {
-	AtomAmt    sdk.Dec `json:"atomAmt"`
-	Multiplier sdk.Dec `json:"multiplier"`
-	BonusMalus sdk.Dec `json:"bonusMalus"`
-	Factor     sdk.Dec `json:"factor"`
-	AtoneAmt   sdk.Dec `json:"atoneAmt"`
+	AtomAmt    math.LegacyDec `json:"atomAmt"`
+	Multiplier math.LegacyDec `json:"multiplier"`
+	BonusMalus math.LegacyDec `json:"bonusMalus"`
+	Factor     math.LegacyDec `json:"factor"`
+	AtoneAmt   math.LegacyDec `json:"atoneAmt"`
 }
 
 type distrib struct {
 	// total supply of the distrib
-	supply sdk.Dec
+	supply math.LegacyDec
 	// votes holds the part of the distrib per vote.
 	votes voteMap
 	// unstaked is part of the distrib for unstaked amounts.
-	unstaked sdk.Dec
+	unstaked math.LegacyDec
 }
 
 type distriParams struct {
-	yesVotesMultiplier sdk.Dec
-	noVotesMultiplier  sdk.Dec
-	bonus              sdk.Dec
-	malus              sdk.Dec
-	supplyFactor       sdk.Dec
-	supplyMintFactor   sdk.Dec
+	yesVotesMultiplier math.LegacyDec
+	noVotesMultiplier  math.LegacyDec
+	bonus              math.LegacyDec
+	malus              math.LegacyDec
+	supplyFactor       math.LegacyDec
+	supplyMintFactor   math.LegacyDec
 }
 
 func (d distriParams) String() string {
@@ -94,17 +95,17 @@ func (d distriParams) String() string {
 
 func defaultDistriParams() distriParams {
 	return distriParams{
-		yesVotesMultiplier: sdk.OneDec(),                    // Y get x1
-		noVotesMultiplier:  sdk.NewDec(9),                   // N & NWV get x9
-		bonus:              sdk.NewDecWithPrec(103, 2),      // 3% bonus
-		malus:              sdk.NewDecWithPrec(97, 2),       // -3% malus
-		supplyFactor:       sdk.NewDecWithPrec(1, 1),        // Decrease final supply by a factor of 10
-		supplyMintFactor:   sdk.OneDec().Quo(sdk.NewDec(9)), // 1/9 of the total supply is minted for the CP and a reserved address
+		yesVotesMultiplier: math.LegacyOneDec(),                    // Y get x1
+		noVotesMultiplier:  math.LegacyNewDec(9),                   // N & NWV get x9
+		bonus:              math.LegacyNewDecWithPrec(103, 2),      // 3% bonus
+		malus:              math.LegacyNewDecWithPrec(97, 2),       // -3% malus
+		supplyFactor:       math.LegacyNewDecWithPrec(1, 1),        // Decrease final supply by a factor of 10
+		supplyMintFactor:   math.LegacyOneDec().Quo(math.LegacyNewDec(9)), // 1/9 of the total supply is minted for the CP and a reserved address
 	}
 }
 
-func (d distrib) votePercentages() map[govtypes.VoteOption]sdk.Dec {
-	percs := make(map[govtypes.VoteOption]sdk.Dec)
+func (d distrib) votePercentages() map[govtypes.VoteOption]math.LegacyDec {
+	percs := make(map[govtypes.VoteOption]math.LegacyDec)
 	for k, v := range d.votes {
 		percs[k] = v.Quo(d.supply)
 	}
@@ -114,17 +115,17 @@ func (d distrib) votePercentages() map[govtypes.VoteOption]sdk.Dec {
 func distribution(accounts []Account, params distriParams, prefix string) (airdrop, error) {
 	airdrop := airdrop{
 		params:    params,
-		addresses: make(map[string]sdk.Int),
-		icfSlash:  sdk.ZeroDec(),
+		addresses: make(map[string]math.Int),
+		icfSlash:  math.LegacyZeroDec(),
 		atom: distrib{
-			supply:   sdk.ZeroDec(),
+			supply:   math.LegacyZeroDec(),
 			votes:    newVoteMap(),
-			unstaked: sdk.ZeroDec(),
+			unstaked: math.LegacyZeroDec(),
 		},
 		atone: distrib{
-			supply:   sdk.ZeroDec(),
+			supply:   math.LegacyZeroDec(),
 			votes:    newVoteMap(),
-			unstaked: sdk.ZeroDec(),
+			unstaked: math.LegacyZeroDec(),
 		},
 	}
 	for _, acc := range accounts {
@@ -154,13 +155,13 @@ func distribution(accounts []Account, params distriParams, prefix string) (airdr
 		yesAtoneTotalAmt     = airdrop.atom.votes[govtypes.OptionYes].Mul(params.yesVotesMultiplier)
 		noAtoneTotalAmt      = airdrop.atom.votes[govtypes.OptionNo].Add(airdrop.atom.votes[govtypes.OptionNoWithVeto]).Mul(params.noVotesMultiplier)
 		noVotersAtomTotalAmt = airdrop.atom.votes[govtypes.OptionAbstain].Add(airdrop.atom.votes[govtypes.OptionEmpty]).Add(airdrop.atom.unstaked)
-		targetNonVotersPerc  = sdk.NewDecWithPrec(33, 2)
+		targetNonVotersPerc  = math.LegacyNewDecWithPrec(33, 2)
 	)
 	// Formula is:
 	// nonVotersMultiplier = (t x (yesAtone + noAtone)) / ((1 - t) x nonVoterAtom)
 	// where t is the targetNonVotersPerc
 	airdrop.nonVotersMultiplier = targetNonVotersPerc.Mul(yesAtoneTotalAmt.Add(noAtoneTotalAmt)).
-		Quo((sdk.OneDec().Sub(targetNonVotersPerc)).Mul(noVotersAtomTotalAmt))
+		Quo((math.LegacyOneDec().Sub(targetNonVotersPerc)).Mul(noVotersAtomTotalAmt))
 
 	for _, acc := range accounts {
 		if slices.Contains(icfWallets, acc.Address) {
@@ -224,14 +225,14 @@ func distribution(accounts []Account, params distriParams, prefix string) (airdr
 				YesDetail: amtDetail{
 					AtomAmt:    yesAtomAmt,
 					Multiplier: params.yesVotesMultiplier,
-					BonusMalus: sdk.OneDec(),
+					BonusMalus: math.LegacyOneDec(),
 					Factor:     params.supplyFactor,
 					AtoneAmt:   yesAirdropAmt,
 				},
 				NoDetail: amtDetail{
 					AtomAmt:    noAtomAmt,
 					Multiplier: params.noVotesMultiplier,
-					BonusMalus: sdk.OneDec(),
+					BonusMalus: math.LegacyOneDec(),
 					Factor:     params.supplyFactor,
 					AtoneAmt:   noAirdropAmt,
 				},
@@ -245,7 +246,7 @@ func distribution(accounts []Account, params distriParams, prefix string) (airdr
 				AbsDetail: amtDetail{
 					AtomAmt:    abstainAtomAmt,
 					Multiplier: airdrop.nonVotersMultiplier,
-					BonusMalus: sdk.OneDec(),
+					BonusMalus: math.LegacyOneDec(),
 					Factor:     params.supplyFactor,
 					AtoneAmt:   abstainAirdropAmt,
 				},
@@ -274,13 +275,13 @@ func distribution(accounts []Account, params distriParams, prefix string) (airdr
 	}
 	// Compute minted part
 	minted := airdrop.atone.supply.Mul(params.supplyMintFactor)
-	airdrop.communityPool = minted.Quo(sdk.NewDec(2))
-	airdrop.reservedAddr = minted.Quo(sdk.NewDec(2))
+	airdrop.communityPool = minted.Quo(math.LegacyNewDec(2))
+	airdrop.reservedAddr = minted.Quo(math.LegacyNewDec(2))
 	return airdrop, nil
 }
 
 // convenient type for manipulating vote counts.
-type voteMap map[govtypes.VoteOption]sdk.Dec
+type voteMap map[govtypes.VoteOption]math.LegacyDec
 
 var (
 	allVoteOptions = []govtypes.VoteOption{
@@ -298,14 +299,14 @@ var (
 )
 
 func newVoteMap() voteMap {
-	m := make(map[govtypes.VoteOption]sdk.Dec)
+	m := make(map[govtypes.VoteOption]math.LegacyDec)
 	for _, v := range allVoteOptions {
-		m[v] = sdk.ZeroDec()
+		m[v] = math.LegacyZeroDec()
 	}
 	return m
 }
 
-func (m voteMap) add(v govtypes.VoteOption, d sdk.Dec) {
+func (m voteMap) add(v govtypes.VoteOption, d math.LegacyDec) {
 	m[v] = m[v].Add(d)
 }
 
@@ -394,7 +395,7 @@ func newBarChart(airdrops []airdrop) *charts.Bar {
 		var (
 			votePercs  = d.votePercentages()
 			data       = make([]opts.BarData, 6)
-			oneHundred = sdk.NewDec(100)
+			oneHundred = math.LegacyNewDec(100)
 		)
 		data[0] = opts.BarData{
 			Name:  "Yes",
@@ -447,7 +448,7 @@ func newPieChart(title string, d distrib) *charts.Pie {
 		data       = make([]opts.PieData, 6)
 		dataSum    = make([]opts.PieData, 3)
 		votePercs  = d.votePercentages()
-		oneHundred = sdk.NewDec(100)
+		oneHundred = math.LegacyNewDec(100)
 	)
 	data[0] = opts.PieData{
 		Name:      "Yes",

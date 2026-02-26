@@ -5,7 +5,8 @@ import (
 
 	h "github.com/dustin/go-humanize"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"cosmossdk.io/math"
+
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
@@ -13,15 +14,15 @@ import (
 func tally(
 	votesByAddr map[string]govtypes.WeightedVoteOptions, valsByAddr map[string]govtypes.ValidatorGovInfo,
 	delegsByAddr map[string][]stakingtypes.Delegation,
-) (map[govtypes.VoteOption]sdk.Dec, sdk.Dec) {
+) (map[govtypes.VoteOption]math.LegacyDec, math.LegacyDec) {
 	var (
-		results = map[govtypes.VoteOption]sdk.Dec{
-			govtypes.OptionYes:        sdk.ZeroDec(),
-			govtypes.OptionAbstain:    sdk.ZeroDec(),
-			govtypes.OptionNo:         sdk.ZeroDec(),
-			govtypes.OptionNoWithVeto: sdk.ZeroDec(),
+		results = map[govtypes.VoteOption]math.LegacyDec{
+			govtypes.OptionYes:        math.LegacyZeroDec(),
+			govtypes.OptionAbstain:    math.LegacyZeroDec(),
+			govtypes.OptionNo:         math.LegacyZeroDec(),
+			govtypes.OptionNoWithVeto: math.LegacyZeroDec(),
 		}
-		totalVotingPower = sdk.ZeroDec()
+		totalVotingPower = math.LegacyZeroDec()
 	)
 	for voterAddr, vote := range votesByAddr {
 		// Check voter delegations
@@ -65,7 +66,7 @@ func tally(
 	return results, totalVotingPower
 }
 
-func printTallyResults(results map[govtypes.VoteOption]sdk.Dec, totalVotingPower sdk.Dec, prop govtypes.Proposal) {
+func printTallyResults(results map[govtypes.VoteOption]math.LegacyDec, totalVotingPower math.LegacyDec, prop govtypes.Proposal) {
 	fmt.Println("Computed total voting power", h.Comma(totalVotingPower.TruncateInt64()))
 	yesPercent := results[govtypes.OptionYes].
 		Quo(totalVotingPower.Sub(results[govtypes.OptionAbstain]))
@@ -87,12 +88,12 @@ func printTallyResults(results map[govtypes.VoteOption]sdk.Dec, totalVotingPower
 	}
 	appendTable("computed", tallyResult)
 	appendTable("from prop", prop.FinalTallyResult)
-	diff := govtypes.NewTallyResult(
-		tallyResult.Yes.Sub(prop.FinalTallyResult.Yes),
-		tallyResult.Abstain.Sub(prop.FinalTallyResult.Abstain),
-		tallyResult.No.Sub(prop.FinalTallyResult.No),
-		tallyResult.NoWithVeto.Sub(prop.FinalTallyResult.NoWithVeto),
-	)
+	diff := govtypes.TallyResult{
+		Yes:        tallyResult.Yes.Sub(prop.FinalTallyResult.Yes),
+		Abstain:    tallyResult.Abstain.Sub(prop.FinalTallyResult.Abstain),
+		No:         tallyResult.No.Sub(prop.FinalTallyResult.No),
+		NoWithVeto: tallyResult.NoWithVeto.Sub(prop.FinalTallyResult.NoWithVeto),
+	}
 	appendTable("diff", diff)
 	table.Render()
 }

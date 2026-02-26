@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"cosmossdk.io/math"
+
 	"github.com/cosmos/gogoproto/jsonpb"
 	h "github.com/dustin/go-humanize"
 
@@ -21,7 +23,7 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	proposaltypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
+	icatypes "github.com/cosmos/ibc-go/v10/modules/apps/27-interchain-accounts/types"
 )
 
 var (
@@ -47,8 +49,8 @@ func init() {
 
 const M = 1_000_000 // 1 million
 
-func human(i sdk.Int) string {
-	M := sdk.NewInt(M)
+func human(i math.Int) string {
+	M := math.NewInt(M)
 	return h.Comma(i.Quo(M).Int64())
 }
 
@@ -56,17 +58,17 @@ func humani(i int64) string {
 	return h.Comma(i / M)
 }
 
-func humand(d sdk.Dec) string {
-	M := sdk.NewDec(1_000_000)
+func humand(d math.LegacyDec) string {
+	M := math.LegacyNewDec(1_000_000)
 	return h.Comma(d.Quo(M).RoundInt64())
 }
 
-func humanPercentI(d sdk.Dec) string {
-	return fmt.Sprintf("%d%%", d.Mul(sdk.NewDec(100)).RoundInt64())
+func humanPercentI(d math.LegacyDec) string {
+	return fmt.Sprintf("%d%%", d.Mul(math.LegacyNewDec(100)).RoundInt64())
 }
 
-func humanPercent(d sdk.Dec) string {
-	return fmt.Sprintf("%.2f %%", d.Mul(sdk.NewDec(100)).MustFloat64())
+func humanPercent(d math.LegacyDec) string {
+	return fmt.Sprintf("%.2f %%", d.Mul(math.LegacyNewDec(100)).MustFloat64())
 }
 
 // convertBech32 derive addr from src to dst bech32 prefix.
@@ -243,10 +245,10 @@ func parseValidatorsByAddr(path string, votesByAddr map[string]govtypes.Weighted
 		}
 		accAddr := sdk.AccAddress(valAddr.Bytes()).String()
 		valsByAddr[val.OperatorAddress] = govtypes.NewValidatorGovInfo(
-			val.GetOperator(),
+			valAddr,
 			val.GetBondedTokens(),
 			val.GetDelegatorShares(),
-			sdk.ZeroDec(),
+			math.LegacyZeroDec(),
 			votesByAddr[accAddr],
 		)
 	}
