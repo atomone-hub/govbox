@@ -33,7 +33,8 @@ type BlockGasData struct {
 
 // GasCache holds cached block data
 type GasCache struct {
-	Blocks map[int64]*BlockGasData `json:"blocks"`
+	Title  string                    `json:"title,omitempty"`
+	Blocks map[int64]*BlockGasData   `json:"blocks"`
 }
 
 const gasMonitorCacheFile = "data/gasmonitor_cache.json"
@@ -45,6 +46,8 @@ func gasMonitorCmd() *ffcli.Command {
 	numBlocks := fs.Int("num", 100, "Number of blocks to fetch")
 	untilStable := fs.Bool("until-stable", false, "Keep fetching until gas stabilizes below 1,000,000")
 	noCache := fs.Bool("no-cache", false, "Disable cache")
+	inputFile := fs.String("input-file", "", "Generate chart from this JSON file (GasCache format), skip RPC")
+	outputFile := fs.String("output-file", "", "Write chart to this file instead of a temp file")
 
 	return &ffcli.Command{
 		Name:       "gasmonitor",
@@ -55,12 +58,34 @@ func gasMonitorCmd() *ffcli.Command {
 			if err := fs.Parse(args); err != nil {
 				return err
 			}
-			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks, *untilStable, *noCache)
+			if *inputFile != "" {
+				return generateChartFromFile(*inputFile, *outputFile)
+			}
+			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks, *untilStable, *noCache, *outputFile)
 		},
 	}
 }
 
-func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int, untilStable, noCache bool) error {
+func generateChartFromFile(path, outputFile string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("failed to read input file: %w", err)
+	}
+	var cache GasCache
+	if err := json.Unmarshal(data, &cache); err != nil {
+		return fmt.Errorf("failed to parse input file: %w", err)
+	}
+	blocks := make([]*BlockGasData, 0, len(cache.Blocks))
+	for _, b := range cache.Blocks {
+		blocks = append(blocks, b)
+	}
+	sort.Slice(blocks, func(i, j int) bool {
+		return blocks[i].Height < blocks[j].Height
+	})
+	return generateGasChart(blocks, cache.Title, outputFile)
+}
+
+func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int, untilStable, noCache bool, outputFile string) error {
 	// Create RPC client
 	client, err := rpchttp.New(rpcEndpoint, "/websocket")
 	if err != nil {
@@ -166,7 +191,7 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 	})
 
 	// Generate chart
-	return generateGasChart(blocksData)
+	return generateGasChart(blocksData, "", outputFile)
 }
 
 func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) (*BlockGasData, error) {
@@ -322,16 +347,20 @@ func saveCache(cacheFile string, cache *GasCache) error {
 	return os.WriteFile(cacheFile, data, 0o644)
 }
 
-func generateGasChart(blocksData []*BlockGasData) error {
+func generateGasChart(blocksData []*BlockGasData, title, outputFile string) error {
 	if len(blocksData) == 0 {
 		return fmt.Errorf("no block data to display")
+	}
+
+	if title == "" {
+		title = "AtomOne Gas Monitor"
 	}
 
 	// Create chart
 	bar := charts.NewBar()
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title:    "AtomOne Gas Monitor",
+			Title:    title,
 			Subtitle: fmt.Sprintf("Blocks %d - %d", blocksData[0].Height, blocksData[len(blocksData)-1].Height),
 		}),
 		charts.WithLegendOpts(opts.Legend{
@@ -442,7 +471,7 @@ func generateGasChart(blocksData []*BlockGasData) error {
 				Smooth:     true,
 			}),
 			charts.WithItemStyleOpts(opts.ItemStyle{
-				Color: "#3ba272",
+				Color: "#00e676",
 			}),
 		)
 
@@ -478,14 +507,19 @@ func generateGasChart(blocksData []*BlockGasData) error {
 
 	page.AddCharts(bar)
 
-	// Render to temp file and open in browser
-	f, err := os.CreateTemp("", "gasmonitor*.html")
+	// Render chart
+	var f *os.File
+	var err error
+	if outputFile != "" {
+		f, err = os.Create(outputFile)
+	} else {
+		f, err = os.CreateTemp("", "gasmonitor*.html")
+	}
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	// Get absolute path before rendering
 	absPath, err := filepath.Abs(f.Name())
 	if err != nil {
 		absPath = f.Name()
@@ -496,5 +530,8 @@ func generateGasChart(blocksData []*BlockGasData) error {
 	}
 
 	fmt.Printf("Chart rendered to %s\n", absPath)
+	if outputFile != "" {
+		return nil
+	}
 	return browser.OpenFile(absPath)
 }
