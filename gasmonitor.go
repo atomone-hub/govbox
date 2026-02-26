@@ -44,6 +44,7 @@ func gasMonitorCmd() *ffcli.Command {
 	startBlock := fs.Int64("start", 0, "Start block height (0 = latest - numBlocks)")
 	numBlocks := fs.Int("num", 100, "Number of blocks to fetch")
 	untilStable := fs.Bool("until-stable", false, "Keep fetching until gas stabilizes below 1,000,000")
+	noCache := fs.Bool("no-cache", false, "Disable cache")
 
 	return &ffcli.Command{
 		Name:       "gasmonitor",
@@ -54,12 +55,12 @@ func gasMonitorCmd() *ffcli.Command {
 			if err := fs.Parse(args); err != nil {
 				return err
 			}
-			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks, *untilStable)
+			return runGasMonitor(ctx, *rpcEndpoint, *startBlock, *numBlocks, *untilStable, *noCache)
 		},
 	}
 }
 
-func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int, untilStable bool) error {
+func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, numBlocks int, untilStable, noCache bool) error {
 	// Create RPC client
 	client, err := rpchttp.New(rpcEndpoint, "/websocket")
 	if err != nil {
@@ -87,7 +88,7 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 	}
 
 	// Load cache
-	cache := loadCache(gasMonitorCacheFile)
+	cache := loadCache(gasMonitorCacheFile, noCache)
 
 	// Fetch blocks
 	blocksData := make([]*BlockGasData, 0, numBlocks)
@@ -124,13 +125,7 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 		// Fetch from RPC
 		data, err := fetchBlockGasData(ctx, client, h)
 		if err != nil {
-			fmt.Printf("Warning: failed to fetch block %d: %v\n", h, err)
-			// If we hit the latest block, stop
-			if untilStable {
-				fmt.Printf("Reached latest available block at height %d\n", h-1)
-				break
-			}
-			continue
+			return fmt.Errorf("Warning: failed to fetch block %d: %v\n", h, err)
 		}
 
 		blocksData = append(blocksData, data)
@@ -195,8 +190,7 @@ func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) 
 	// Fetch gas price from dynamicfee module via ABCI query
 	gasPrice, err := fetchDynamicfeeGasPrice(ctx, client, height)
 	if err != nil {
-		// dynamicfee query failed, gas price will be 0
-		gasPrice = 0
+		return nil, fmt.Errorf("failed to fetch gas price: %w", err)
 	}
 
 	return &BlockGasData{
@@ -300,9 +294,12 @@ func extractProtoField(data []byte, targetField int) ([]byte, error) {
 	return nil, fmt.Errorf("field %d not found", targetField)
 }
 
-func loadCache(cacheFile string) *GasCache {
+func loadCache(cacheFile string, noCache bool) *GasCache {
 	cache := &GasCache{
 		Blocks: make(map[int64]*BlockGasData),
+	}
+	if noCache {
+		return cache
 	}
 
 	data, err := os.ReadFile(cacheFile)
