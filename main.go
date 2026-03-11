@@ -34,7 +34,7 @@ var rootCmd = &ffcli.Command{
 		distributionCmd(), top20Cmd(), proposalCmd(), propJSONCmd(),
 		signTxCmd(), vestingCmd(),
 		tallyGenesisCmd(), shrinkVotesCmd(), gnoAirdropCmd(),
-		gasMonitorCmd(), gnoAccountsCmd(),
+		gasMonitorCmd(), gasSimCmd(), gnoAccountsCmd(),
 	},
 	Exec: func(ctx context.Context, args []string) error {
 		return flag.ErrHelp
