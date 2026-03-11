@@ -163,14 +163,13 @@ func runGasMonitor(ctx context.Context, rpcEndpoint string, startBlock int64, nu
 
 	fmt.Printf("Fetched %d blocks from RPC, %d from cache\n", fetchCount, len(blocksData)-fetchCount)
 
-	// Fetch params once from the first monitored block if not cached
-	if cache.Params == nil && len(blocksData) > 0 {
+	// Fetch params from the first monitored block
+	if len(blocksData) > 0 {
 		params, err := fetchDynamicfeeParams(ctx, client, blocksData[0].Height)
 		if err != nil {
 			fmt.Printf("Warning: failed to fetch dynamicfee params: %v\n", err)
 		} else {
 			cache.Params = params
-			fmt.Printf("Fetched dynamicfee params at block %d\n", blocksData[0].Height)
 		}
 	}
 
