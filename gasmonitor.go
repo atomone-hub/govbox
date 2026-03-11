@@ -24,11 +24,12 @@ import (
 
 // BlockGasData holds gas data for a single block
 type BlockGasData struct {
-	Height    int64     `json:"height"`
-	TotalGas  int64     `json:"total_gas"`
-	GasPrice  float64   `json:"gas_price"`
-	TxCount   int       `json:"tx_count"`
-	Timestamp time.Time `json:"timestamp"`
+	Height       int64     `json:"height"`
+	TotalGas     int64     `json:"total_gas"`
+	GasPrice     float64   `json:"gas_price"`
+	LearningRate float64   `json:"learning_rate,omitempty"`
+	TxCount      int       `json:"tx_count"`
+	Timestamp    time.Time `json:"timestamp"`
 }
 
 // GasCache holds cached block data
@@ -413,9 +414,11 @@ func generateGasChart(blocksData []*BlockGasData, title, outputFile string) erro
 	timestamps := make([]string, len(blocksData))
 	gasBarData := make([]opts.BarData, len(blocksData))
 	gasPriceLineData := make([]opts.LineData, len(blocksData))
+	lrLineData := make([]opts.LineData, len(blocksData))
 
 	var maxGas int64
 	var maxGasPrice float64
+	hasLR := false
 	for i, block := range blocksData {
 		xAxis[i] = humanize.Comma(block.Height)
 		blockHeights[i] = block.Height
@@ -423,11 +426,15 @@ func generateGasChart(blocksData []*BlockGasData, title, outputFile string) erro
 		timestamps[i] = block.Timestamp.Format("2006-01-02 15:04:05 UTC")
 		gasBarData[i] = opts.BarData{Value: block.TotalGas}
 		gasPriceLineData[i] = opts.LineData{Value: block.GasPrice}
+		lrLineData[i] = opts.LineData{Value: block.LearningRate}
 		if block.TotalGas > maxGas {
 			maxGas = block.TotalGas
 		}
 		if block.GasPrice > maxGasPrice {
 			maxGasPrice = block.GasPrice
+		}
+		if block.LearningRate > 0 {
+			hasLR = true
 		}
 	}
 
@@ -462,6 +469,7 @@ func generateGasChart(blocksData []*BlockGasData, title, outputFile string) erro
 			Max:  gasPriceAxisMax,
 		})
 
+
 	// Create line chart for gas price
 	line := charts.NewLine()
 	line.SetXAxis(xAxis).
@@ -490,6 +498,30 @@ func generateGasChart(blocksData []*BlockGasData, title, outputFile string) erro
 			}),
 			charts.WithLineStyleOpts(opts.LineStyle{
 				Type:  "dashed",
+				Width: 2,
+			}),
+		)
+	}
+
+	// Add learning rate line if present (own hidden Y-axis)
+	if hasLR {
+		bar.ExtendYAxis(opts.YAxis{
+			Type:      "value",
+			Min:       0,
+			Max:       0.55,
+			AxisLabel: &opts.AxisLabel{Show: false},
+			AxisLine:  &opts.AxisLine{Show: false},
+			SplitLine: &opts.SplitLine{Show: false},
+		})
+		line.AddSeries("Learning Rate", lrLineData,
+			charts.WithLineChartOpts(opts.LineChart{
+				YAxisIndex: 2,
+				Smooth:     true,
+			}),
+			charts.WithItemStyleOpts(opts.ItemStyle{
+				Color: "#ff9800",
+			}),
+			charts.WithLineStyleOpts(opts.LineStyle{
 				Width: 2,
 			}),
 		)
