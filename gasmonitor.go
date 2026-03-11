@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-	"strconv"
 	"time"
 
 	"github.com/dustin/go-humanize"
@@ -20,6 +19,9 @@ import (
 
 	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	rpchttp "github.com/cometbft/cometbft/rpc/client/http"
+	"github.com/cosmos/gogoproto/proto"
+
+	dynamicfeetypes "github.com/atomone-hub/atomone/x/dynamicfee/types"
 )
 
 // BlockGasData holds gas data for a single block
@@ -42,7 +44,7 @@ const gasMonitorCacheFile = "data/gasmonitor_cache.json"
 
 func gasMonitorCmd() *ffcli.Command {
 	fs := flag.NewFlagSet("gasmonitor", flag.ContinueOnError)
-	rpcEndpoint := fs.String("rpc", "https://atomone-rpc.allinbits.com:443", "RPC endpoint URL")
+	rpcEndpoint := fs.String("rpc", "https://rpc.atomone-archive.citizenweb3.com", "RPC endpoint URL")
 	startBlock := fs.Int64("start", 0, "Start block height (0 = latest - numBlocks)")
 	numBlocks := fs.Int("num", 100, "Number of blocks to fetch")
 	untilStable := fs.Bool("until-stable", false, "Keep fetching until gas stabilizes below 1,000,000")
@@ -213,111 +215,43 @@ func fetchBlockGasData(ctx context.Context, client *rpchttp.HTTP, height int64) 
 		totalGas += txResult.GasUsed
 	}
 
-	// Fetch gas price from dynamicfee module via ABCI query
-	gasPrice, err := fetchDynamicfeeGasPrice(ctx, client, height)
+	// Fetch gas price and learning rate from dynamicfee module via ABCI query
+	gasPrice, learningRate, err := fetchDynamicfeeState(ctx, client, height)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch gas price: %w", err)
+		return nil, fmt.Errorf("failed to fetch dynamicfee state: %w", err)
 	}
 
 	return &BlockGasData{
-		Height:    height,
-		TotalGas:  totalGas,
-		GasPrice:  gasPrice,
-		TxCount:   len(blockResults.TxsResults),
-		Timestamp: block.Block.Header.Time,
+		Height:       height,
+		TotalGas:     totalGas,
+		GasPrice:     gasPrice,
+		LearningRate: learningRate,
+		TxCount:      len(blockResults.TxsResults),
+		Timestamp:    block.Block.Header.Time,
 	}, nil
 }
 
-func fetchDynamicfeeGasPrice(ctx context.Context, client *rpchttp.HTTP, height int64) (float64, error) {
-	// Query the dynamicfee module state via ABCI query at specific height
+func fetchDynamicfeeState(ctx context.Context, client *rpchttp.HTTP, height int64) (gasPrice float64, learningRate float64, err error) {
 	resp, err := client.ABCIQueryWithOptions(ctx,
 		"/atomone.dynamicfee.v1.Query/State",
-		nil, // empty request
+		nil,
 		rpcclient.ABCIQueryOptions{Height: height},
 	)
 	if err != nil {
-		return 0, fmt.Errorf("ABCI query failed: %w", err)
+		return 0, 0, fmt.Errorf("ABCI query failed: %w", err)
 	}
-
 	if resp.Response.Code != 0 {
-		return 0, fmt.Errorf("ABCI query error: %s", resp.Response.Log)
+		return 0, 0, fmt.Errorf("ABCI query error: %s", resp.Response.Log)
 	}
 
-	// Parse the protobuf response manually
-	// State message: base_gas_price is field 1 (string type)
-	return parseBaseGasPriceFromProto(resp.Response.Value)
-}
-
-// parseBaseGasPriceFromProto extracts base_gas_price from protobuf-encoded StateResponse message
-// The response is wrapped: StateResponse { State state = 1; } where State { string base_gas_price = 1; ... }
-// The base_gas_price is in SDK Dec format (integer with 18 decimal places of precision)
-func parseBaseGasPriceFromProto(data []byte) (float64, error) {
-	if len(data) == 0 {
-		return 0, fmt.Errorf("empty response")
+	var stateResp dynamicfeetypes.StateResponse
+	if err := proto.Unmarshal(resp.Response.Value, &stateResp); err != nil {
+		return 0, 0, fmt.Errorf("failed to unmarshal StateResponse: %w", err)
 	}
 
-	// First, unwrap the StateResponse to get the State message (field 1)
-	stateData, err := extractProtoField(data, 1)
-	if err != nil {
-		return 0, fmt.Errorf("failed to extract State from response: %w", err)
-	}
-
-	// Now extract base_gas_price (field 1) from the State message
-	priceData, err := extractProtoField(stateData, 1)
-	if err != nil {
-		return 0, fmt.Errorf("failed to extract base_gas_price from State: %w", err)
-	}
-
-	// The price is stored as a string integer with 18 decimal places
-	// e.g., "10000000000000000" = 0.01 (10^16 / 10^18)
-	priceInt, err := strconv.ParseFloat(string(priceData), 64)
-	if err != nil {
-		return 0, fmt.Errorf("failed to parse base_gas_price: %w", err)
-	}
-
-	// Convert from SDK Dec format (18 decimal precision) to float
-	return priceInt / 1e18, nil
-}
-
-// extractProtoField extracts a length-delimited field from protobuf data
-func extractProtoField(data []byte, targetField int) ([]byte, error) {
-	i := 0
-	for i < len(data) {
-		if i >= len(data) {
-			break
-		}
-
-		// Read tag byte
-		tag := data[i]
-		fieldNum := int(tag >> 3)
-		wireType := tag & 0x07
-		i++
-
-		if wireType == 2 { // Length-delimited
-			if i >= len(data) {
-				return nil, fmt.Errorf("truncated data at length")
-			}
-			length := int(data[i])
-			i++
-			if i+length > len(data) {
-				return nil, fmt.Errorf("truncated field data")
-			}
-
-			if fieldNum == targetField {
-				return data[i : i+length], nil
-			}
-			i += length
-		} else if wireType == 0 { // Varint
-			for i < len(data) && data[i]&0x80 != 0 {
-				i++
-			}
-			i++
-		} else {
-			return nil, fmt.Errorf("unsupported wire type %d", wireType)
-		}
-	}
-
-	return nil, fmt.Errorf("field %d not found", targetField)
+	gp, _ := stateResp.State.BaseGasPrice.Float64()
+	lr, _ := stateResp.State.LearningRate.Float64()
+	return gp, lr, nil
 }
 
 func loadCache(cacheFile string, noCache bool) *GasCache {
