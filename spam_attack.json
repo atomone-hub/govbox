@@ -1,0 +1,2112 @@
+{
+  "params": {
+    "alpha": "0.025000000000000000",
+    "beta": "0.950000000000000000",
+    "gamma": "0.250000000000000000",
+    "min_learning_rate": "0.010000000000000000",
+    "max_learning_rate": "0.500000000000000000",
+    "window": 8,
+    "target_block_utilization": "0.500000000000000000",
+    "default_max_block_gas": 100000000,
+    "min_base_gas_price": "0.010000000000000000",
+    "fee_denom": "uphoton"
+  },
+  "blocks": [
+    {
+      "height": 6965425,
+      "total_gas": 101497,
+      "gas_price": 0.01,
+      "learning_rate": 0.5,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:34:39.041835849Z"
+    },
+    {
+      "height": 6965426,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.5,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:34:44.761624032Z"
+    },
+    {
+      "height": 6965427,
+      "total_gas": 67578318,
+      "gas_price": 0.0117555698,
+      "learning_rate": 0.5,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:34:50.447243282Z"
+    },
+    {
+      "height": 6965428,
+      "total_gas": 66064607,
+      "gas_price": 0.013641787064009286,
+      "learning_rate": 0.5,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:34:56.321175992Z"
+    },
+    {
+      "height": 6965429,
+      "total_gas": 66067262,
+      "gas_price": 0.015830995405481815,
+      "learning_rate": 0.5,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:35:06.880185809Z"
+    },
+    {
+      "height": 6965430,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.5,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:35:13.006036479Z"
+    },
+    {
+      "height": 6965431,
+      "total_gas": 66065327,
+      "gas_price": 0.011524315565,
+      "learning_rate": 0.475,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:35:19.096860902Z"
+    },
+    {
+      "height": 6965432,
+      "total_gas": 66076007,
+      "gas_price": 0.013194246649373787,
+      "learning_rate": 0.45125,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:35:29.678307587Z"
+    },
+    {
+      "height": 6965433,
+      "total_gas": 66066047,
+      "gas_price": 0.015009385871406536,
+      "learning_rate": 0.4286875,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:35:37.093522376Z"
+    },
+    {
+      "height": 6965434,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.407253125,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:35:43.243376827Z"
+    },
+    {
+      "height": 6965435,
+      "total_gas": 66066047,
+      "gas_price": 0.011241573840036032,
+      "learning_rate": 0.38689046875,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:35:49.193387661Z"
+    },
+    {
+      "height": 6965436,
+      "total_gas": 66203418,
+      "gas_price": 0.012578524988814408,
+      "learning_rate": 0.3675459453125,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:35:55.187270423Z"
+    },
+    {
+      "height": 6965437,
+      "total_gas": 66066047,
+      "gas_price": 0.013987974362219128,
+      "learning_rate": 0.349168648046875,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:36:01.631362179Z"
+    },
+    {
+      "height": 6965438,
+      "total_gas": 39641072,
+      "gas_price": 0.013025508891231446,
+      "learning_rate": 0.33171021564453124,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:36:08.258751857Z"
+    },
+    {
+      "height": 6965439,
+      "total_gas": 39641072,
+      "gas_price": 0.012174079505249128,
+      "learning_rate": 0.3151247048623047,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:36:14.413924281Z"
+    },
+    {
+      "height": 6965440,
+      "total_gas": 39640856,
+      "gas_price": 0.011418091017722919,
+      "learning_rate": 0.29936846961918945,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:36:20.338366202Z"
+    },
+    {
+      "height": 6965441,
+      "total_gas": 66066587,
+      "gas_price": 0.012460192759367736,
+      "learning_rate": 0.28440004613823,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:36:26.361451879Z"
+    },
+    {
+      "height": 6965442,
+      "total_gas": 66166474,
+      "gas_price": 0.01354695094278679,
+      "learning_rate": 0.2701800438313185,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:36:36.927905383Z"
+    },
+    {
+      "height": 6965443,
+      "total_gas": 39641396,
+      "gas_price": 0.012825697907873667,
+      "learning_rate": 0.2566710416397526,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:36:43.534991861Z"
+    },
+    {
+      "height": 6965444,
+      "total_gas": 39984331,
+      "gas_price": 0.012198169834759472,
+      "learning_rate": 0.24383748955776494,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:36:49.606307525Z"
+    },
+    {
+      "height": 6965445,
+      "total_gas": 66067127,
+      "gas_price": 0.01310496282439734,
+      "learning_rate": 0.2316456150798767,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:36:56.141401368Z"
+    },
+    {
+      "height": 6965446,
+      "total_gas": 52854260,
+      "gas_price": 0.013268604623181588,
+      "learning_rate": 0.22006333432588285,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:37:02.439489796Z"
+    },
+    {
+      "height": 6965447,
+      "total_gas": 26428562,
+      "gas_price": 0.011960416183368886,
+      "learning_rate": 0.2090601676095887,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:37:08.475919687Z"
+    },
+    {
+      "height": 6965448,
+      "total_gas": 66258793,
+      "gas_price": 0.012731643902074366,
+      "learning_rate": 0.19860715922910926,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:37:14.497501138Z"
+    },
+    {
+      "height": 6965449,
+      "total_gas": 66067127,
+      "gas_price": 0.013502533849650573,
+      "learning_rate": 0.18867680126765382,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:37:30.869853986Z"
+    },
+    {
+      "height": 6965450,
+      "total_gas": 66067127,
+      "gas_price": 0.01427922217890213,
+      "learning_rate": 0.1792429612042711,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:37:41.530862999Z"
+    },
+    {
+      "height": 6965451,
+      "total_gas": 66204708,
+      "gas_price": 0.015066001050587766,
+      "learning_rate": 0.17028081314405757,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:37:47.636065112Z"
+    },
+    {
+      "height": 6965452,
+      "total_gas": 0,
+      "gas_price": 0.012628822686350622,
+      "learning_rate": 0.1617667724868547,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:38:01.872956697Z"
+    },
+    {
+      "height": 6965453,
+      "total_gas": 52853828,
+      "gas_price": 0.012738945052050418,
+      "learning_rate": 0.15367843386251195,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:38:10.118615405Z"
+    },
+    {
+      "height": 6965454,
+      "total_gas": 52853828,
+      "gas_price": 0.012844473545122801,
+      "learning_rate": 0.14599451216938636,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:38:16.028878031Z"
+    },
+    {
+      "height": 6965455,
+      "total_gas": 66066587,
+      "gas_price": 0.01341616724169268,
+      "learning_rate": 0.13869478656091702,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:38:22.007553575Z"
+    },
+    {
+      "height": 6965456,
+      "total_gas": 39640856,
+      "gas_price": 0.01304948895257388,
+      "learning_rate": 0.13176004723287119,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:38:28.007253202Z"
+    },
+    {
+      "height": 6965457,
+      "total_gas": 13314859,
+      "gas_price": 0.01185076209951981,
+      "learning_rate": 0.12517204487122763,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:38:34.232439269Z"
+    },
+    {
+      "height": 6965458,
+      "total_gas": 66066587,
+      "gas_price": 0.01230299712042991,
+      "learning_rate": 0.11891344262766625,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:38:40.118649517Z"
+    },
+    {
+      "height": 6965459,
+      "total_gas": 26428346,
+      "gas_price": 0.011647546614983994,
+      "learning_rate": 0.11296777049628293,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:38:46.213542576Z"
+    },
+    {
+      "height": 6965460,
+      "total_gas": 66407684,
+      "gas_price": 0.012057099923666482,
+      "learning_rate": 0.10731938197146879,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:38:52.093613674Z"
+    },
+    {
+      "height": 6965461,
+      "total_gas": 66067127,
+      "gas_price": 0.01245158812908249,
+      "learning_rate": 0.10195341287289535,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:00.377997566Z"
+    },
+    {
+      "height": 6965462,
+      "total_gas": 66067127,
+      "gas_price": 0.012838613570721275,
+      "learning_rate": 0.09685574222925057,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:11.067691528Z"
+    },
+    {
+      "height": 6965463,
+      "total_gas": 52991712,
+      "gas_price": 0.012908794821297639,
+      "learning_rate": 0.09201295511778805,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:17.125131419Z"
+    },
+    {
+      "height": 6965464,
+      "total_gas": 52853828,
+      "gas_price": 0.012972821064957825,
+      "learning_rate": 0.08741230736189864,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:39:23.070319433Z"
+    },
+    {
+      "height": 6965465,
+      "total_gas": 39641288,
+      "gas_price": 0.012749360653828073,
+      "learning_rate": 0.08304169199380372,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:39:28.912550028Z"
+    },
+    {
+      "height": 6965466,
+      "total_gas": 26428490,
+      "gas_price": 0.012275028918821216,
+      "learning_rate": 0.07888960739411353,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:39:34.850227936Z"
+    },
+    {
+      "height": 6965467,
+      "total_gas": 66066947,
+      "gas_price": 0.012570254853711603,
+      "learning_rate": 0.07494512702440785,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:40.93030106Z"
+    },
+    {
+      "height": 6965468,
+      "total_gas": 66066947,
+      "gas_price": 0.012857464928918996,
+      "learning_rate": 0.07119787067318746,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:51.361981894Z"
+    },
+    {
+      "height": 6965469,
+      "total_gas": 52953397,
+      "gas_price": 0.012908464454656649,
+      "learning_rate": 0.06763797713952809,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:39:58.650476254Z"
+    },
+    {
+      "height": 6965470,
+      "total_gas": 13215692,
+      "gas_price": 0.012298181050732973,
+      "learning_rate": 0.06425607828255168,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:40:04.7163737Z"
+    },
+    {
+      "height": 6965471,
+      "total_gas": 66954887,
+      "gas_price": 0.012552366058792643,
+      "learning_rate": 0.0610432743684241,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:40:10.468693809Z"
+    },
+    {
+      "height": 6965472,
+      "total_gas": 39641072,
+      "gas_price": 0.012401372470530385,
+      "learning_rate": 0.0579911106500029,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:40:16.342493047Z"
+    },
+    {
+      "height": 6965473,
+      "total_gas": 66066947,
+      "gas_price": 0.012620624370693485,
+      "learning_rate": 0.05509155511750275,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:40:22.890752649Z"
+    },
+    {
+      "height": 6965474,
+      "total_gas": 39641288,
+      "gas_price": 0.012483612103080417,
+      "learning_rate": 0.05233697736162761,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:40:28.85587786Z"
+    },
+    {
+      "height": 6965475,
+      "total_gas": 66066947,
+      "gas_price": 0.012682799148877625,
+      "learning_rate": 0.049720128493546234,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:40:34.759522587Z"
+    },
+    {
+      "height": 6965476,
+      "total_gas": 66066947,
+      "gas_price": 0.012875046137196563,
+      "learning_rate": 0.04723412206886892,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:40:45.811912078Z"
+    },
+    {
+      "height": 6965477,
+      "total_gas": 66066947,
+      "gas_price": 0.013060449168067262,
+      "learning_rate": 0.044872415965425475,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:40:52.512805867Z"
+    },
+    {
+      "height": 6965478,
+      "total_gas": 66066947,
+      "gas_price": 0.013239118393230803,
+      "learning_rate": 0.0426287951671542,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:40:58.486018534Z"
+    },
+    {
+      "height": 6965479,
+      "total_gas": 26428490,
+      "gas_price": 0.012986270284199549,
+      "learning_rate": 0.04049735540879649,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:41:04.49393269Z"
+    },
+    {
+      "height": 6965480,
+      "total_gas": 52853828,
+      "gas_price": 0.013014619069012483,
+      "learning_rate": 0.038472487638356666,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:41:10.440915103Z"
+    },
+    {
+      "height": 6965481,
+      "total_gas": 52854116,
+      "gas_price": 0.013041609661850515,
+      "learning_rate": 0.03654886325643883,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:41:16.277282944Z"
+    },
+    {
+      "height": 6965482,
+      "total_gas": 66066947,
+      "gas_price": 0.013186926941578168,
+      "learning_rate": 0.03472142009361689,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:41:22.233440852Z"
+    },
+    {
+      "height": 6965483,
+      "total_gas": 39641288,
+      "gas_price": 0.013096700327306678,
+      "learning_rate": 0.03298534908893604,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:41:28.254146293Z"
+    },
+    {
+      "height": 6965484,
+      "total_gas": 39641288,
+      "gas_price": 0.013011571518509788,
+      "learning_rate": 0.03133608163448924,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:41:34.637168854Z"
+    },
+    {
+      "height": 6965485,
+      "total_gas": 66066947,
+      "gas_price": 0.01313587595553409,
+      "learning_rate": 0.029769277552764782,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:41:40.524609139Z"
+    },
+    {
+      "height": 6965486,
+      "total_gas": 66066947,
+      "gas_price": 0.013255093321399033,
+      "learning_rate": 0.028280813675126543,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:41:50.932480097Z"
+    },
+    {
+      "height": 6965487,
+      "total_gas": 52854116,
+      "gas_price": 0.013275300486234452,
+      "learning_rate": 0.026866772991370216,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:41:57.03426449Z"
+    },
+    {
+      "height": 6965488,
+      "total_gas": 39641072,
+      "gas_price": 0.013205016731457847,
+      "learning_rate": 0.025523434341801706,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:42:04.060864222Z"
+    },
+    {
+      "height": 6965489,
+      "total_gas": 26428490,
+      "gas_price": 0.01305401718154076,
+      "learning_rate": 0.02424726262471162,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:42:09.8667659Z"
+    },
+    {
+      "height": 6965490,
+      "total_gas": 66066947,
+      "gas_price": 0.013150515353051027,
+      "learning_rate": 0.02303489949347604,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:42:15.823843876Z"
+    },
+    {
+      "height": 6965491,
+      "total_gas": 66066947,
+      "gas_price": 0.013242866284945963,
+      "learning_rate": 0.021883154518802236,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:42:21.993332651Z"
+    },
+    {
+      "height": 6965492,
+      "total_gas": 39641288,
+      "gas_price": 0.013185759790361127,
+      "learning_rate": 0.020788996792862124,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:42:28.081891505Z"
+    },
+    {
+      "height": 6965493,
+      "total_gas": 52854116,
+      "gas_price": 0.013200536215774774,
+      "learning_rate": 0.019749546953219017,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:42:34.433371992Z"
+    },
+    {
+      "height": 6965494,
+      "total_gas": 66066947,
+      "gas_price": 0.013280016772106839,
+      "learning_rate": 0.018762069605558068,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:42:40.300062893Z"
+    },
+    {
+      "height": 6965495,
+      "total_gas": 52854116,
+      "gas_price": 0.01329344782502692,
+      "learning_rate": 0.017823966125280165,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:42:46.349018432Z"
+    },
+    {
+      "height": 6965496,
+      "total_gas": 26428346,
+      "gas_price": 0.013187292933375923,
+      "learning_rate": 0.01693276781901616,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:42:52.406076547Z"
+    },
+    {
+      "height": 6965497,
+      "total_gas": 39777931,
+      "gas_price": 0.013143852147092197,
+      "learning_rate": 0.016086129428065348,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:42:58.274737391Z"
+    },
+    {
+      "height": 6965498,
+      "total_gas": 13215692,
+      "gas_price": 0.012996063664547614,
+      "learning_rate": 0.015281822956662082,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:43:04.215449786Z"
+    },
+    {
+      "height": 6965499,
+      "total_gas": 13215692,
+      "gas_price": 0.01285724324255754,
+      "learning_rate": 0.014517731808828978,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:43:09.960037324Z"
+    },
+    {
+      "height": 6965500,
+      "total_gas": 66066947,
+      "gas_price": 0.012914149341863104,
+      "learning_rate": 0.013791845218387529,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:43:15.815997273Z"
+    },
+    {
+      "height": 6965501,
+      "total_gas": 52854116,
+      "gas_price": 0.012923750394990299,
+      "learning_rate": 0.013102252957468153,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:43:22.198760085Z"
+    },
+    {
+      "height": 6965502,
+      "total_gas": 39641288,
+      "gas_price": 0.012890382552800932,
+      "learning_rate": 0.012447140309594745,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:43:28.114165962Z"
+    },
+    {
+      "height": 6965503,
+      "total_gas": 52854116,
+      "gas_price": 0.012899031556549449,
+      "learning_rate": 0.011824783294115009,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:43:38.603399305Z"
+    },
+    {
+      "height": 6965504,
+      "total_gas": 66066587,
+      "gas_price": 0.012945532403124575,
+      "learning_rate": 0.011233544129409257,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:43:44.584662599Z"
+    },
+    {
+      "height": 6965505,
+      "total_gas": 39741683,
+      "gas_price": 0.012917141085929222,
+      "learning_rate": 0.010671866922938795,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:43:55.14430938Z"
+    },
+    {
+      "height": 6965506,
+      "total_gas": 66066947,
+      "gas_price": 0.01295916717648699,
+      "learning_rate": 0.010138273576791855,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:44:01.194963086Z"
+    },
+    {
+      "height": 6965507,
+      "total_gas": 52854116,
+      "gas_price": 0.012966520508595609,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:44:11.904093716Z"
+    },
+    {
+      "height": 6965508,
+      "total_gas": 39986228,
+      "gas_price": 0.012940507666424598,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:44:17.771711325Z"
+    },
+    {
+      "height": 6965509,
+      "total_gas": 13215692,
+      "gas_price": 0.012845295143057458,
+      "learning_rate": 0.01,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:44:23.960920908Z"
+    },
+    {
+      "height": 6965510,
+      "total_gas": 66066947,
+      "gas_price": 0.012886517485805672,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:44:29.842873243Z"
+    },
+    {
+      "height": 6965511,
+      "total_gas": 66066947,
+      "gas_price": 0.01292787211679816,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:44:35.794900269Z"
+    },
+    {
+      "height": 6965512,
+      "total_gas": 26428346,
+      "gas_price": 0.01286690418398581,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:44:42.265154529Z"
+    },
+    {
+      "height": 6965513,
+      "total_gas": 52854116,
+      "gas_price": 0.01287420516393198,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:44:48.462062182Z"
+    },
+    {
+      "height": 6965514,
+      "total_gas": 39641288,
+      "gas_price": 0.012847500298004395,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:44:54.366022086Z"
+    },
+    {
+      "height": 6965515,
+      "total_gas": 66066947,
+      "gas_price": 0.012888729717402233,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:00.471247244Z"
+    },
+    {
+      "height": 6965516,
+      "total_gas": 66066947,
+      "gas_price": 0.012930091447754298,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:06.355700413Z"
+    },
+    {
+      "height": 6965517,
+      "total_gas": 66066947,
+      "gas_price": 0.01297158591366489,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:12.268460517Z"
+    },
+    {
+      "height": 6965518,
+      "total_gas": 66066947,
+      "gas_price": 0.013013213541100917,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:23.001169049Z"
+    },
+    {
+      "height": 6965519,
+      "total_gas": 66066947,
+      "gas_price": 0.013054974757396276,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:28.850127063Z"
+    },
+    {
+      "height": 6965520,
+      "total_gas": 52853828,
+      "gas_price": 0.01306238232762128,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:45:35.034598582Z"
+    },
+    {
+      "height": 6965521,
+      "total_gas": 66066947,
+      "gas_price": 0.013104301333406712,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:41.19008015Z"
+    },
+    {
+      "height": 6965522,
+      "total_gas": 66066947,
+      "gas_price": 0.013146354863125221,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:45:51.839383985Z"
+    },
+    {
+      "height": 6965523,
+      "total_gas": 52854116,
+      "gas_price": 0.01315381440986999,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:45:57.928270394Z"
+    },
+    {
+      "height": 6965524,
+      "total_gas": 26428490,
+      "gas_price": 0.013091780994805414,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:46:03.784180435Z"
+    },
+    {
+      "height": 6965525,
+      "total_gas": 13215692,
+      "gas_price": 0.012995455445915276,
+      "learning_rate": 0.01,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:46:09.610918737Z"
+    },
+    {
+      "height": 6965526,
+      "total_gas": 66066947,
+      "gas_price": 0.013037159674007707,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:46:16.146266553Z"
+    },
+    {
+      "height": 6965527,
+      "total_gas": 52854116,
+      "gas_price": 0.013044557260868842,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:46:22.055857735Z"
+    },
+    {
+      "height": 6965528,
+      "total_gas": 66066587,
+      "gas_price": 0.013086418906995566,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:46:28.154711386Z"
+    },
+    {
+      "height": 6965529,
+      "total_gas": 66066947,
+      "gas_price": 0.01312841504951491,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:46:34.516427858Z"
+    },
+    {
+      "height": 6965530,
+      "total_gas": 52854116,
+      "gas_price": 0.013135864416793234,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:46:45.436005833Z"
+    },
+    {
+      "height": 6965531,
+      "total_gas": 66066947,
+      "gas_price": 0.013178019236846222,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:46:52.203471843Z"
+    },
+    {
+      "height": 6965532,
+      "total_gas": 39641288,
+      "gas_price": 0.01315068417169618,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:47:02.773071422Z"
+    },
+    {
+      "height": 6965533,
+      "total_gas": 39641288,
+      "gas_price": 0.013123405807464029,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:47:08.595006671Z"
+    },
+    {
+      "height": 6965534,
+      "total_gas": 66066947,
+      "gas_price": 0.01316552064610295,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:14.479008753Z"
+    },
+    {
+      "height": 6965535,
+      "total_gas": 66066947,
+      "gas_price": 0.013207770637129874,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:24.99116634Z"
+    },
+    {
+      "height": 6965536,
+      "total_gas": 66066587,
+      "gas_price": 0.013250156055774402,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:30.952386469Z"
+    },
+    {
+      "height": 6965537,
+      "total_gas": 66066947,
+      "gas_price": 0.013292677653629136,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:36.984811676Z"
+    },
+    {
+      "height": 6965538,
+      "total_gas": 66066947,
+      "gas_price": 0.013335335709218897,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:42.989085208Z"
+    },
+    {
+      "height": 6965539,
+      "total_gas": 39641288,
+      "gas_price": 0.013307674323705816,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:47:48.805004214Z"
+    },
+    {
+      "height": 6965540,
+      "total_gas": 66066947,
+      "gas_price": 0.01335038050570039,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:47:54.884260889Z"
+    },
+    {
+      "height": 6965541,
+      "total_gas": 66066947,
+      "gas_price": 0.013393223737786224,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:48:05.464977721Z"
+    },
+    {
+      "height": 6965542,
+      "total_gas": 66066947,
+      "gas_price": 0.013436204459776169,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:48:11.30900535Z"
+    },
+    {
+      "height": 6965543,
+      "total_gas": 66066947,
+      "gas_price": 0.013479323112894492,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:48:21.791553221Z"
+    },
+    {
+      "height": 6965544,
+      "total_gas": 66066587,
+      "gas_price": 0.013522579978029536,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:48:27.791109303Z"
+    },
+    {
+      "height": 6965545,
+      "total_gas": 39641288,
+      "gas_price": 0.013494530193152715,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:48:33.709968112Z"
+    },
+    {
+      "height": 6965546,
+      "total_gas": 52854116,
+      "gas_price": 0.013502187302657412,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:48:39.652543292Z"
+    },
+    {
+      "height": 6965547,
+      "total_gas": 39641288,
+      "gas_price": 0.013474179818152132,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:48:45.369693276Z"
+    },
+    {
+      "height": 6965548,
+      "total_gas": 52854116,
+      "gas_price": 0.013481825380381923,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:48:51.247334217Z"
+    },
+    {
+      "height": 6965549,
+      "total_gas": 66066947,
+      "gas_price": 0.013525090437394027,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:48:57.245176974Z"
+    },
+    {
+      "height": 6965550,
+      "total_gas": 39641288,
+      "gas_price": 0.013497035445090427,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:49:03.135205245Z"
+    },
+    {
+      "height": 6965551,
+      "total_gas": 52854116,
+      "gas_price": 0.013504693976133195,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:49:09.300432868Z"
+    },
+    {
+      "height": 6965552,
+      "total_gas": 66066587,
+      "gas_price": 0.013548032259600619,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:49:15.268912394Z"
+    },
+    {
+      "height": 6965553,
+      "total_gas": 39641288,
+      "gas_price": 0.013519929679249575,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:49:21.27322788Z"
+    },
+    {
+      "height": 6965554,
+      "total_gas": 66066947,
+      "gas_price": 0.013563317018268484,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:49:27.419781893Z"
+    },
+    {
+      "height": 6965555,
+      "total_gas": 66066947,
+      "gas_price": 0.0136068435933065,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:49:33.352226021Z"
+    },
+    {
+      "height": 6965556,
+      "total_gas": 39641288,
+      "gas_price": 0.013578619021052916,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:49:39.243198513Z"
+    },
+    {
+      "height": 6965557,
+      "total_gas": 66066947,
+      "gas_price": 0.013622194702350966,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:49:45.662722398Z"
+    },
+    {
+      "height": 6965558,
+      "total_gas": 66066947,
+      "gas_price": 0.013665910224084752,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:49:56.286771012Z"
+    },
+    {
+      "height": 6965559,
+      "total_gas": 66066947,
+      "gas_price": 0.013709766035021725,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:02.34879764Z"
+    },
+    {
+      "height": 6965560,
+      "total_gas": 66066587,
+      "gas_price": 0.013753762420852304,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:13.065192173Z"
+    },
+    {
+      "height": 6965561,
+      "total_gas": 66066947,
+      "gas_price": 0.0137979001617353,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:19.175017266Z"
+    },
+    {
+      "height": 6965562,
+      "total_gas": 66066947,
+      "gas_price": 0.013842179546781592,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:25.223962165Z"
+    },
+    {
+      "height": 6965563,
+      "total_gas": 66066947,
+      "gas_price": 0.013886601030547042,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:31.135089952Z"
+    },
+    {
+      "height": 6965564,
+      "total_gas": 66066947,
+      "gas_price": 0.01393116506904625,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:41.654148964Z"
+    },
+    {
+      "height": 6965565,
+      "total_gas": 66066947,
+      "gas_price": 0.01397587211975723,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:50:47.677543905Z"
+    },
+    {
+      "height": 6965566,
+      "total_gas": 26428490,
+      "gas_price": 0.013909961878888712,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:50:53.684466233Z"
+    },
+    {
+      "height": 6965567,
+      "total_gas": 52854116,
+      "gas_price": 0.01391785471396991,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:50:59.592628024Z"
+    },
+    {
+      "height": 6965568,
+      "total_gas": 52853828,
+      "gas_price": 0.01392575189401744,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:51:05.791778946Z"
+    },
+    {
+      "height": 6965569,
+      "total_gas": 66066947,
+      "gas_price": 0.013970441573095157,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:11.583932453Z"
+    },
+    {
+      "height": 6965570,
+      "total_gas": 26428490,
+      "gas_price": 0.013904556942695556,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:51:17.723918535Z"
+    },
+    {
+      "height": 6965571,
+      "total_gas": 66066947,
+      "gas_price": 0.013949178604219905,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:23.953014613Z"
+    },
+    {
+      "height": 6965572,
+      "total_gas": 66066947,
+      "gas_price": 0.013993943462876343,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:29.824341642Z"
+    },
+    {
+      "height": 6965573,
+      "total_gas": 66066947,
+      "gas_price": 0.014038851978204432,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:35.909538294Z"
+    },
+    {
+      "height": 6965574,
+      "total_gas": 66066947,
+      "gas_price": 0.014083904611218456,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:41.834686293Z"
+    },
+    {
+      "height": 6965575,
+      "total_gas": 26428490,
+      "gas_price": 0.014017484888904141,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:51:47.888357646Z"
+    },
+    {
+      "height": 6965576,
+      "total_gas": 66066587,
+      "gas_price": 0.01406246878374021,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:51:53.658987149Z"
+    },
+    {
+      "height": 6965577,
+      "total_gas": 66066947,
+      "gas_price": 0.01410759720637538,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:04.283255662Z"
+    },
+    {
+      "height": 6965578,
+      "total_gas": 66066947,
+      "gas_price": 0.01415287045240969,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:10.379257336Z"
+    },
+    {
+      "height": 6965579,
+      "total_gas": 52854116,
+      "gas_price": 0.01416090111945098,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:52:16.31863013Z"
+    },
+    {
+      "height": 6965580,
+      "total_gas": 26428490,
+      "gas_price": 0.014094118281449849,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:52:22.372883373Z"
+    },
+    {
+      "height": 6965581,
+      "total_gas": 66066947,
+      "gas_price": 0.01413934827173511,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:28.316277236Z"
+    },
+    {
+      "height": 6965582,
+      "total_gas": 66066947,
+      "gas_price": 0.014184723411364257,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:36.852383939Z"
+    },
+    {
+      "height": 6965583,
+      "total_gas": 66066947,
+      "gas_price": 0.014230244166141767,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:42.937552426Z"
+    },
+    {
+      "height": 6965584,
+      "total_gas": 39641072,
+      "gas_price": 0.014200726376360037,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:52:49.074042003Z"
+    },
+    {
+      "height": 6965585,
+      "total_gas": 66066947,
+      "gas_price": 0.014246298486883033,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:52:55.216208377Z"
+    },
+    {
+      "height": 6965586,
+      "total_gas": 66066947,
+      "gas_price": 0.01429201684466145,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:53:25.50050949Z"
+    },
+    {
+      "height": 6965587,
+      "total_gas": 66066947,
+      "gas_price": 0.014337881919023117,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:53:48.365165745Z"
+    },
+    {
+      "height": 6965588,
+      "total_gas": 66066947,
+      "gas_price": 0.014383894180802001,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:04.86309543Z"
+    },
+    {
+      "height": 6965589,
+      "total_gas": 66066947,
+      "gas_price": 0.014430054102343043,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:15.492073977Z"
+    },
+    {
+      "height": 6965590,
+      "total_gas": 66204471,
+      "gas_price": 0.014476746787713091,
+      "learning_rate": 0.01,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T08:54:21.575033788Z"
+    },
+    {
+      "height": 6965591,
+      "total_gas": 66066947,
+      "gas_price": 0.014523204686213365,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:27.588895965Z"
+    },
+    {
+      "height": 6965592,
+      "total_gas": 66066587,
+      "gas_price": 0.014569811500307702,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:34.30725281Z"
+    },
+    {
+      "height": 6965593,
+      "total_gas": 66066947,
+      "gas_price": 0.014616568056443914,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:40.939665999Z"
+    },
+    {
+      "height": 6965594,
+      "total_gas": 66066947,
+      "gas_price": 0.01466347466088663,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:47.280445924Z"
+    },
+    {
+      "height": 6965595,
+      "total_gas": 66066947,
+      "gas_price": 0.014710531795161783,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:54:53.583385583Z"
+    },
+    {
+      "height": 6965596,
+      "total_gas": 66066947,
+      "gas_price": 0.014757739942340588,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:10.119740763Z"
+    },
+    {
+      "height": 6965597,
+      "total_gas": 66066947,
+      "gas_price": 0.014805099587044507,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:20.895019828Z"
+    },
+    {
+      "height": 6965598,
+      "total_gas": 66066947,
+      "gas_price": 0.014852611215450215,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:27.007263233Z"
+    },
+    {
+      "height": 6965599,
+      "total_gas": 66066947,
+      "gas_price": 0.014900275315294599,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:33.226642949Z"
+    },
+    {
+      "height": 6965600,
+      "total_gas": 66066587,
+      "gas_price": 0.014948092197076454,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:39.685560991Z"
+    },
+    {
+      "height": 6965601,
+      "total_gas": 66066947,
+      "gas_price": 0.014996062708700925,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:46.104985979Z"
+    },
+    {
+      "height": 6965602,
+      "total_gas": 66066947,
+      "gas_price": 0.015044187164384288,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:55:52.89035478Z"
+    },
+    {
+      "height": 6965603,
+      "total_gas": 140322,
+      "gas_price": 0.014894154801532736,
+      "learning_rate": 0.01,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T08:55:59.320555212Z"
+    },
+    {
+      "height": 6965604,
+      "total_gas": 66066767,
+      "gas_price": 0.014941952131171103,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:56:05.271548851Z"
+    },
+    {
+      "height": 6965605,
+      "total_gas": 39641180,
+      "gas_price": 0.014910958099633224,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:56:15.887429633Z"
+    },
+    {
+      "height": 6965606,
+      "total_gas": 26428418,
+      "gas_price": 0.014840637955627138,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:56:21.895408149Z"
+    },
+    {
+      "height": 6965607,
+      "total_gas": 52853972,
+      "gas_price": 0.014849058806670899,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:56:27.907258413Z"
+    },
+    {
+      "height": 6965608,
+      "total_gas": 39640964,
+      "gas_price": 0.014818257356471232,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:56:33.768764672Z"
+    },
+    {
+      "height": 6965609,
+      "total_gas": 39740422,
+      "gas_price": 0.014787801516599839,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T08:56:39.707658049Z"
+    },
+    {
+      "height": 6965610,
+      "total_gas": 39641180,
+      "gas_price": 0.014757127239065162,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:56:46.004284007Z"
+    },
+    {
+      "height": 6965611,
+      "total_gas": 53196151,
+      "gas_price": 0.014766497722670848,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:56:52.406243465Z"
+    },
+    {
+      "height": 6965612,
+      "total_gas": 66066947,
+      "gas_price": 0.014813885472312683,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:56:58.246083004Z"
+    },
+    {
+      "height": 6965613,
+      "total_gas": 39641288,
+      "gas_price": 0.014783157142262993,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T08:57:04.238122476Z"
+    },
+    {
+      "height": 6965614,
+      "total_gas": 66066947,
+      "gas_price": 0.01483059835430462,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:10.290430847Z"
+    },
+    {
+      "height": 6965615,
+      "total_gas": 66066947,
+      "gas_price": 0.014878191811808996,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:20.872089559Z"
+    },
+    {
+      "height": 6965616,
+      "total_gas": 66066587,
+      "gas_price": 0.014925937824814727,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:26.786470119Z"
+    },
+    {
+      "height": 6965617,
+      "total_gas": 26428490,
+      "gas_price": 0.014855547072181025,
+      "learning_rate": 0.01,
+      "tx_count": 2,
+      "timestamp": "2026-01-29T08:57:32.825863365Z"
+    },
+    {
+      "height": 6965618,
+      "total_gas": 66066947,
+      "gas_price": 0.014903220593598917,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:38.686175173Z"
+    },
+    {
+      "height": 6965619,
+      "total_gas": 66066947,
+      "gas_price": 0.014951047105992725,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:46.960515189Z"
+    },
+    {
+      "height": 6965620,
+      "total_gas": 66066947,
+      "gas_price": 0.014999027100331823,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:53.14155767Z"
+    },
+    {
+      "height": 6965621,
+      "total_gas": 66066947,
+      "gas_price": 0.015047161069161166,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:57:59.262827164Z"
+    },
+    {
+      "height": 6965622,
+      "total_gas": 0,
+      "gas_price": 0.014896689458469553,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:58:05.169719897Z"
+    },
+    {
+      "height": 6965623,
+      "total_gas": 66066407,
+      "gas_price": 0.014944494743399882,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:58:21.464318293Z"
+    },
+    {
+      "height": 6965624,
+      "total_gas": 66066047,
+      "gas_price": 0.014992453261959178,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:58:32.002153726Z"
+    },
+    {
+      "height": 6965625,
+      "total_gas": 66066407,
+      "gas_price": 0.01504056586456063,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:58:38.091472376Z"
+    },
+    {
+      "height": 6965626,
+      "total_gas": 0,
+      "gas_price": 0.014890160205915026,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:58:44.13158772Z"
+    },
+    {
+      "height": 6965627,
+      "total_gas": 66065867,
+      "gas_price": 0.014937944269658372,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:58:50.05873597Z"
+    },
+    {
+      "height": 6965628,
+      "total_gas": 66065867,
+      "gas_price": 0.014985881677403144,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:58:56.112798513Z"
+    },
+    {
+      "height": 6965629,
+      "total_gas": 66065867,
+      "gas_price": 0.015033972921246095,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:59:26.530035763Z"
+    },
+    {
+      "height": 6965630,
+      "total_gas": 0,
+      "gas_price": 0.014883633192033634,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T08:59:34.480229639Z"
+    },
+    {
+      "height": 6965631,
+      "total_gas": 66065867,
+      "gas_price": 0.014931396309914542,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T08:59:50.604460558Z"
+    },
+    {
+      "height": 6965632,
+      "total_gas": 66065507,
+      "gas_price": 0.01497931252540268,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:00:01.158347253Z"
+    },
+    {
+      "height": 6965633,
+      "total_gas": 66240048,
+      "gas_price": 0.015027892317324215,
+      "learning_rate": 0.01,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T09:00:07.132325061Z"
+    },
+    {
+      "height": 6965634,
+      "total_gas": 908169,
+      "gas_price": 0.014880305728221396,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:00:13.103766127Z"
+    },
+    {
+      "height": 6965635,
+      "total_gas": 66066227,
+      "gas_price": 0.014928058346490539,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:00:19.025331515Z"
+    },
+    {
+      "height": 6965636,
+      "total_gas": 73556771,
+      "gas_price": 0.014998315733421957,
+      "learning_rate": 0.01,
+      "tx_count": 6,
+      "timestamp": "2026-01-29T09:00:24.920303937Z"
+    },
+    {
+      "height": 6965637,
+      "total_gas": 39640856,
+      "gas_price": 0.014967204625107573,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:00:30.971631541Z"
+    },
+    {
+      "height": 6965638,
+      "total_gas": 53529490,
+      "gas_price": 0.014977719415635212,
+      "learning_rate": 0.01,
+      "tx_count": 4,
+      "timestamp": "2026-01-29T09:00:37.212955175Z"
+    },
+    {
+      "height": 6965639,
+      "total_gas": 67630828,
+      "gas_price": 0.015030470128629144,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:00:42.980807776Z"
+    },
+    {
+      "height": 6965640,
+      "total_gas": 0,
+      "gas_price": 0.014880165427342853,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:00:48.87898607Z"
+    },
+    {
+      "height": 6965641,
+      "total_gas": 67593645,
+      "gas_price": 0.014932463241873627,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:00:54.852455244Z"
+    },
+    {
+      "height": 6965642,
+      "total_gas": 54205147,
+      "gas_price": 0.014944959763427376,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:01.013987526Z"
+    },
+    {
+      "height": 6965643,
+      "total_gas": 67634000,
+      "gas_price": 0.014997605476488415,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:07.074515054Z"
+    },
+    {
+      "height": 6965644,
+      "total_gas": 40588815,
+      "gas_price": 0.014969338994525898,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:01:13.222212019Z"
+    },
+    {
+      "height": 6965645,
+      "total_gas": 40586917,
+      "gas_price": 0.014941120104973647,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:01:19.300053976Z"
+    },
+    {
+      "height": 6965646,
+      "total_gas": 54466676,
+      "gas_price": 0.01495440537843121,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:25.090779332Z"
+    },
+    {
+      "height": 6965647,
+      "total_gas": 67591370,
+      "gas_price": 0.01500695686373323,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:30.921606636Z"
+    },
+    {
+      "height": 6965648,
+      "total_gas": 0,
+      "gas_price": 0.014856887295095898,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:01:37.263206714Z"
+    },
+    {
+      "height": 6965649,
+      "total_gas": 67600086,
+      "gas_price": 0.01490912198926195,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:43.602488752Z"
+    },
+    {
+      "height": 6965650,
+      "total_gas": 67560620,
+      "gas_price": 0.014961422652471888,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:49.448904695Z"
+    },
+    {
+      "height": 6965651,
+      "total_gas": 67634927,
+      "gas_price": 0.01501412913221215,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:01:59.985926435Z"
+    },
+    {
+      "height": 6965652,
+      "total_gas": 0,
+      "gas_price": 0.01486398784089003,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:02:06.10021619Z"
+    },
+    {
+      "height": 6965653,
+      "total_gas": 67649261,
+      "gas_price": 0.014916395024640455,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:02:11.922953807Z"
+    },
+    {
+      "height": 6965654,
+      "total_gas": 67586833,
+      "gas_price": 0.01496880074456478,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:02:17.855139454Z"
+    },
+    {
+      "height": 6965655,
+      "total_gas": 67603517,
+      "gas_price": 0.015021440529221062,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:02:28.65756375Z"
+    },
+    {
+      "height": 6965656,
+      "total_gas": 0,
+      "gas_price": 0.014871226123928851,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:02:34.677571492Z"
+    },
+    {
+      "height": 6965657,
+      "total_gas": 67641464,
+      "gas_price": 0.014923635638098757,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:02:40.495857994Z"
+    },
+    {
+      "height": 6965658,
+      "total_gas": 40556822,
+      "gas_price": 0.014895413885032988,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:02:46.448132444Z"
+    },
+    {
+      "height": 6965659,
+      "total_gas": 0,
+      "gas_price": 0.014746459746182657,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:02:52.377733132Z"
+    },
+    {
+      "height": 6965660,
+      "total_gas": 0,
+      "gas_price": 0.01459899514872083,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:03:03.523732047Z"
+    },
+    {
+      "height": 6965661,
+      "total_gas": 67624076,
+      "gas_price": 0.014650395804725077,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:09.841285425Z"
+    },
+    {
+      "height": 6965662,
+      "total_gas": 67653263,
+      "gas_price": 0.014702062954188754,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:15.756895274Z"
+    },
+    {
+      "height": 6965663,
+      "total_gas": 67678711,
+      "gas_price": 0.01475398714439238,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:21.637399765Z"
+    },
+    {
+      "height": 6965664,
+      "total_gas": 67673280,
+      "gas_price": 0.014806078250087779,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:27.647332392Z"
+    },
+    {
+      "height": 6965665,
+      "total_gas": 67652603,
+      "gas_price": 0.014858291153616449,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:38.34904142Z"
+    },
+    {
+      "height": 6965666,
+      "total_gas": 67654014,
+      "gas_price": 0.014910692376379858,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:44.955808357Z"
+    },
+    {
+      "height": 6965667,
+      "total_gas": 67656711,
+      "gas_price": 0.0149632851051195,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:51.023157285Z"
+    },
+    {
+      "height": 6965668,
+      "total_gas": 67627155,
+      "gas_price": 0.01501597354032923,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:03:57.284893763Z"
+    },
+    {
+      "height": 6965669,
+      "total_gas": 0,
+      "gas_price": 0.014865813804925939,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:04:08.394639849Z"
+    },
+    {
+      "height": 6965670,
+      "total_gas": 13556479,
+      "gas_price": 0.014757448917052472,
+      "learning_rate": 0.01,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T09:04:14.549038627Z"
+    },
+    {
+      "height": 6965671,
+      "total_gas": 0,
+      "gas_price": 0.014609874427881945,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:04:20.484865336Z"
+    },
+    {
+      "height": 6965672,
+      "total_gas": 0,
+      "gas_price": 0.014463775683603127,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:04:26.439645273Z"
+    },
+    {
+      "height": 6965673,
+      "total_gas": 13542129,
+      "gas_price": 0.014358300476828534,
+      "learning_rate": 0.01,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T09:04:32.322515506Z"
+    },
+    {
+      "height": 6965674,
+      "total_gas": 67618875,
+      "gas_price": 0.014408838751055374,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:04:38.222992268Z"
+    },
+    {
+      "height": 6965675,
+      "total_gas": 67596905,
+      "gas_price": 0.014459491597209674,
+      "learning_rate": 0.01,
+      "tx_count": 5,
+      "timestamp": "2026-01-29T09:04:44.36758378Z"
+    },
+    {
+      "height": 6965676,
+      "total_gas": 40583672,
+      "gas_price": 0.014432226004825225,
+      "learning_rate": 0.01,
+      "tx_count": 3,
+      "timestamp": "2026-01-29T09:04:50.561110415Z"
+    },
+    {
+      "height": 6965677,
+      "total_gas": 0,
+      "gas_price": 0.014287903744776974,
+      "learning_rate": 0.01,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:04:56.742595145Z"
+    },
+    {
+      "height": 6965678,
+      "total_gas": 0,
+      "gas_price": 0.013787827113709778,
+      "learning_rate": 0.035,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:02.581222075Z"
+    },
+    {
+      "height": 6965679,
+      "total_gas": 0,
+      "gas_price": 0.012960557486887191,
+      "learning_rate": 0.06,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:08.344140735Z"
+    },
+    {
+      "height": 6965680,
+      "total_gas": 0,
+      "gas_price": 0.01185891010050178,
+      "learning_rate": 0.085,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:14.133565489Z"
+    },
+    {
+      "height": 6965681,
+      "total_gas": 0,
+      "gas_price": 0.010554429989446584,
+      "learning_rate": 0.11,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:24.529702911Z"
+    },
+    {
+      "height": 6965682,
+      "total_gas": 73529,
+      "gas_price": 0.01,
+      "learning_rate": 0.135,
+      "tx_count": 1,
+      "timestamp": "2026-01-29T09:05:30.396152666Z"
+    },
+    {
+      "height": 6965683,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.16,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:46.492179633Z"
+    },
+    {
+      "height": 6965684,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.185,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:05:57.002798604Z"
+    },
+    {
+      "height": 6965685,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.21,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:06:02.935014959Z"
+    },
+    {
+      "height": 6965686,
+      "total_gas": 0,
+      "gas_price": 0.01,
+      "learning_rate": 0.235,
+      "tx_count": 0,
+      "timestamp": "2026-01-29T09:06:25.544266751Z"
+    }
+  ]
+}
