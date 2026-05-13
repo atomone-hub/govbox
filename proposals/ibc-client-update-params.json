@@ -1,0 +1,15 @@
+  {
+    "messages": [
+      {
+        "@type": "/ibc.core.client.v1.MsgUpdateParams",
+        "signer": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+        "params": {
+          "allowed_clients": ["07-tendermint", "10-gno"]
+        }
+      }
+    ],
+    "metadata": "ipfs://",
+    "deposit": "10000000uatone",
+    "title": "Add 10-gno to IBC client allowed_clients",
+    "summary": "Required to establish IBC connection with Gno.land"
+  }
