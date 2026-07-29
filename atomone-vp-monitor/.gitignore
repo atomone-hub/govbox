@@ -1,0 +1,6 @@
+token
+state.json
+state.json.tmp
+log.txt
+new.txt
+__pycache__/

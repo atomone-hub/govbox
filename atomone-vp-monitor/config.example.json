@@ -1,0 +1,14 @@
+{
+  "_comment": [
+    "Copy to config.json and fill in. To get the IDs: enable Discord's",
+    "Settings > Advanced > Developer Mode, then right-click the message >",
+    "Copy Message Link. The link is .../channels/<guild_id>/<channel_id>/<message_id>.",
+    "",
+    "emojis: [] means auto-discover and track every reaction on the message.",
+    "Restrict it with e.g. [\"\\u2705\"] or [\":atomone:\"] for custom emoji."
+  ],
+  "channel_id": "<channel_id>",
+  "message_id": "<message_id>",
+  "emojis": [],
+  "chain_api": "https://atomone-api.allinbits.com"
+}

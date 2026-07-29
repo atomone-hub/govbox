@@ -1,0 +1,15 @@
+{
+  "channel_id": "1305972069724323900",
+  "message_id": "1531573708790173696",
+  "emojis": [
+    "✅"
+  ],
+  "chain_api": "https://atomone-api.allinbits.com",
+  "guild_id": "1050058681414340701",
+  "publish": {
+    "enabled": true,
+    "thread_name": "v4.1.0 upgrade — voting power",
+    "title": "v4.1.0 upgrade — validator voting power",
+    "max_listed": 12
+  }
+}
