@@ -491,8 +491,9 @@ def main():
                     )
                     if mon:
                         note = f"nickname {rec['nick']!r}, {note}"
-            if mon:
-                rec.update(moniker=mon, match=how, note=note)
+            # write back even when still unmatched, so the stored reason stays
+            # current after an aliases.json edit (mon is None here anyway)
+            rec.update(moniker=mon, match=how, note=note)
 
         matched = {
             uid: r for uid, r in known.items()
