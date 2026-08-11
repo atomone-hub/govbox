@@ -1,0 +1,25 @@
+{
+  "messages": [
+    {
+      "@type": "/cosmos.staking.v1beta1.MsgUpdateParams",
+      "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+      "params": {
+        "unbonding_time": "1814400s",
+        "max_validators": 100,
+        "max_entries": 7,
+        "historical_entries": 10000,
+        "bond_denom": "uatone",
+        "min_commission_rate": "0.050000000000000000",
+        "max_commission_rate": "0.050000000000000000",
+        "key_rotation_fee": {
+          "denom": "uatone",
+          "amount": "100000000"
+        }
+      }
+    }
+  ],
+  "metadata": "ipfs://CID",
+  "deposit": "10000000uatone",
+  "title": "Initialize the x/staking key_rotation_fee parameter",
+  "summary": "# Proposal\n\nThis proposal initializes the `key_rotation_fee` parameter of the `x/staking`\nmodule to 100 ATONE, so that the consensus pubkey rotation feature becomes\nusable on the testnet.\n\n# Motivation\n\nThe testnet performed the v4 upgrade with a `v4.0.0-rc` binary, whose Cosmos SDK\nversion predates the consensus pubkey rotation feature. As a result its v4\nupgrade handler did not initialize the `key_rotation_fee` parameter introduced by\nthat feature, while the final v4.0.0 binary run by mainnet does set it in\n`MigrateStakingParams`.\n\nThe parameter is therefore unset on the testnet, and any `MsgRotateConsPubKey`\ntransaction fails because the rotation fee is an invalid (nil) coin. The current\non-chain parameters confirm the missing field:\n\n```json\n{\n  \"params\": {\n    \"unbonding_time\": \"1814400s\",\n    \"max_validators\": 100,\n    \"max_entries\": 7,\n    \"historical_entries\": 10000,\n    \"bond_denom\": \"uatone\",\n    \"min_commission_rate\": \"0.050000000000000000\",\n    \"max_commission_rate\": \"0.050000000000000000\"\n  }\n}\n```\n\n# Implementation\n\n`MsgUpdateParams` requires all parameters to be supplied, so this proposal\nrepeats the current on-chain values unchanged and only adds:\n\n```json\n\"key_rotation_fee\": {\n  \"denom\": \"uatone\",\n  \"amount\": \"100000000\"\n}\n```\n\nThat is 100 ATONE, the same value `MigrateStakingParams` sets on mainnet, so\nafter this proposal the testnet staking parameters match the mainnet post-v4\nstate.\n\nNo coordinated upgrade, binary swap or node restart is required: the parameter is\nthe only piece of state the testnet is missing, and the rotation code is already\npart of the binaries in use.\n\n# Consequences\n\nOnce this proposal passes, validators can rotate their consensus pubkey with\n`MsgRotateConsPubKey`, paying a 100 ATONE fee to the community pool. All other\nstaking parameters are left untouched, in particular the minimum and maximum\ncommission rates keep their current 5% value.\n\n# Voting options\n\n- Yes: You are in favor of initializing the `key_rotation_fee` parameter to 100\n  ATONE, enabling consensus pubkey rotation on the testnet.\n- No: You are against initializing the `key_rotation_fee` parameter.\n- ABSTAIN: You wish to contribute to the quorum but you formally decline to vote\n  either for or against the proposal.\n"
+}
