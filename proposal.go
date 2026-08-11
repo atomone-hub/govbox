@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"flag"
@@ -32,6 +33,7 @@ func proposalCmd() *ffcli.Command {
 		ShortHelp: "Prints JSON format compatible with the `tx gov submit-proposal` command",
 		Subcommands: []*ffcli.Command{
 			proposalTextCmd(), proposalAmendmentCmd(), proposalAmendmentDiffCmd(), proposalUpgradeCmd(),
+			proposalFillCmd(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			return flag.ErrHelp
@@ -69,6 +71,70 @@ func proposalTextCmd() *ffcli.Command {
 				"metadata": "ipfs://CID",
 			}
 			return printPropopal(data)
+		},
+	}
+}
+
+func proposalFillCmd() *ffcli.Command {
+	fs := flag.NewFlagSet("fill", flag.ContinueOnError)
+	title := fs.String("title", "", "Proposal title. If not provided, the title of the JSON file is kept")
+	return &ffcli.Command{
+		Name:       "fill",
+		ShortUsage: "govbox proposal fill <path/to/proposal.json> <path/to/proposal.md>",
+		ShortHelp:  "Fills the summary of an existing proposal JSON file with a markdown file",
+		LongHelp: `The proposal JSON file is updated in place: its summary field is replaced by the
+content of the markdown file. The title field is set from the -title flag if
+provided, else it is left untouched, unless it is missing or empty, in which
+case it is read from the first '# ' heading of the markdown file.
+
+The order and the formatting of the other fields are preserved.`,
+		FlagSet: fs,
+		Exec: func(ctx context.Context, args []string) error {
+			if err := fs.Parse(args); err != nil {
+				return err
+			}
+			if fs.NArg() != 2 {
+				return flag.ErrHelp
+			}
+			var (
+				propFile = fs.Arg(0)
+				descFile = fs.Arg(1)
+			)
+			bz, err := os.ReadFile(propFile)
+			if err != nil {
+				return err
+			}
+			summary, err := readProposalSummary(descFile)
+			if err != nil {
+				return err
+			}
+			newTitle := *title
+			if newTitle == "" {
+				var data struct {
+					Title string `json:"title"`
+				}
+				if err := json.Unmarshal(bz, &data); err != nil {
+					return err
+				}
+				newTitle = data.Title
+			}
+			if newTitle == "" {
+				// No title in the JSON file, fetch it from the markdown.
+				heading := strings.SplitN(summary, "\n", 2)[0]
+				if !strings.HasPrefix(heading, "# ") {
+					return fmt.Errorf("%s has no title and %s doesn't start with a '# ' heading, use the -title flag", propFile, descFile)
+				}
+				newTitle = heading[2:] // Remove the '# ' prefix
+			}
+			bz, err = setJSONFields(bz, [][2]string{{"title", newTitle}, {"summary", summary}})
+			if err != nil {
+				return err
+			}
+			if err := os.WriteFile(propFile, bz, 0o644); err != nil {
+				return err
+			}
+			fmt.Printf("%s summary updated with the content of %s\n", propFile, descFile)
+			return nil
 		},
 	}
 }
@@ -204,6 +270,72 @@ func proposalUpgradeCmd() *ffcli.Command {
 			return printPropopal(data)
 		},
 	}
+}
+
+// setJSONFields returns the JSON object bz with the given top-level string
+// fields updated (or appended if missing). Unlike a json.Unmarshal followed by
+// a json.MarshalIndent, the order and the formatting of the other fields are
+// preserved, because their raw bytes are copied verbatim. The indentation of
+// the top-level fields is detected from bz, and defaults to 2 spaces.
+func setJSONFields(bz []byte, fields [][2]string) ([]byte, error) {
+	dec := json.NewDecoder(bytes.NewReader(bz))
+	if tok, err := dec.Token(); err != nil {
+		return nil, err
+	} else if tok != json.Delim('{') {
+		return nil, fmt.Errorf("expected a JSON object, got '%v'", tok)
+	}
+	// Decode the top-level fields, keeping their raw value and their order.
+	var (
+		keys   []string
+		values = make(map[string]json.RawMessage)
+		indent = "  "
+		offset = dec.InputOffset()
+	)
+	for dec.More() {
+		tok, err := dec.Token()
+		if err != nil {
+			return nil, err
+		}
+		key, ok := tok.(string)
+		if !ok {
+			return nil, fmt.Errorf("expected a JSON object key, got '%v'", tok)
+		}
+		if len(keys) == 0 {
+			// Detect the indentation from the bytes preceding the first key.
+			if gap := string(bz[offset:dec.InputOffset()]); strings.Contains(gap, "\n") {
+				gap = gap[strings.LastIndex(gap, "\n")+1:]
+				indent = gap[:strings.Index(gap, `"`)]
+			}
+		}
+		var value json.RawMessage
+		if err := dec.Decode(&value); err != nil {
+			return nil, err
+		}
+		keys = append(keys, key)
+		values[key] = value
+	}
+	// Update the fields, appending those not already present.
+	for _, field := range fields {
+		key, value := field[0], field[1]
+		if _, ok := values[key]; !ok {
+			keys = append(keys, key)
+		}
+		bz, err := json.Marshal(value)
+		if err != nil {
+			return nil, err
+		}
+		values[key] = bz
+	}
+	var out bytes.Buffer
+	out.WriteString("{\n")
+	for i, key := range keys {
+		if i > 0 {
+			out.WriteString(",\n")
+		}
+		fmt.Fprintf(&out, "%s%q: %s", indent, key, values[key])
+	}
+	out.WriteString("\n}\n")
+	return out.Bytes(), nil
 }
 
 func readProposalSummary(path string) (string, error) {
