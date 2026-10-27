@@ -1,0 +1,19 @@
+{
+  "deposit": "10000000uatone",
+  "messages": [
+    {
+      "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+      "authority": "atone10d07y265gmmuvt4z0w9aw880jnsr700j5z0zqt",
+      "plan": {
+        "height": "9732700",
+        "info": "{\"binaries\":{\"darwin/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v4.2.0-rc.2/atomoned-v4.2.0-rc.2-darwin-amd64?checksum=sha256:9be5c29b7e85361951380e3fb37a9302f642387ce11b937cb11b6b3b3b1161ef\",\"darwin/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v4.2.0-rc.2/atomoned-v4.2.0-rc.2-darwin-arm64?checksum=sha256:fd6fb00b11438ef4f2050d111e5d1fc9167143f28b3a45c1a625ba4c35aa74c7\",\"linux/amd64\":\"https://github.com/atomone-hub/atomone/releases/download/v4.2.0-rc.2/atomoned-v4.2.0-rc.2-linux-amd64?checksum=sha256:81852cc0896bc8fd8ab5881773af36f9d100be18317aeeaf9a3f022ea9eaa604\",\"linux/arm64\":\"https://github.com/atomone-hub/atomone/releases/download/v4.2.0-rc.2/atomoned-v4.2.0-rc.2-linux-arm64?checksum=sha256:988c4124e7c783ece67c349ea437c5b9afcf26f45aa8adbdd7877b8c6508ff9a\"}}",
+        "name": "v4.2",
+        "time": "0001-01-01T00:00:00Z",
+        "upgraded_client_state": null
+      }
+    }
+  ],
+  "metadata": "ipfs://CID",
+  "summary": "# AtomOne v4.2 testnet upgrade\n\nThe AtomOne v4.2 release is a minor release that targets the testnet first.\nThe on-chain voting period typically lasts 3 days.\n\nOn governance vote approval, validators will be required to update the AtomOne\nchain binary at the halt-height specified in the on-chain proposal.\n\n## Release Binary \u0026 Upgrade Resources\n\nIMPORTANT: Note that AtomOne v4.2.0-rc.2 binary MUST be used.\n\nThe release can be found [here](https://github.com/atomone-hub/atomone/releases/tag/v4.2.0-rc.2).\nThe changelog can be found [here](https://github.com/atomone-hub/atomone/compare/v4.1.0...v4.2.0-rc.2).\n\n## Proposed Release Contents\n\nThis release includes the following changes since v4.1.0:\n\n- Bump the AtomOne SDK to v0.500.6\n- `x/coredaos`: migrate away from the AtomOne `x/gov` wrapper, move the\n  oversight-DAO bundling check to a gov hook, reject proposals that delegate\n  `x/coredaos` `MsgUpdateParams` via authz, and defer `MsgVetoProposal`\n  deposit/vote cleanup to the EndBlocker\n- `x/photon`: prevent bundling the wildcard symbol in `TxFeeExceptions` with\n  other exceptions\n- `x/dynamicfee`: consume failed-tx gas in dynamic fee pricing\n- `x/gov`: always validate quorum check params, and register the legacy IBC\n  gov proposal content types\n- `10-gno` light client: bind validator addresses to pubkeys and bound\n  `PartSetHeader.Total` during conversion\n- Add the v4.2 upgrade handler\n\n## Testing\n\nThe v4.2 release candidate has gone through unit and e2e testing. This\nproposal exercises the upgrade on the testnet before it is proposed on mainnet.\n\n## Potential risk factors\n\nAlthough extensive testing has taken place, there always exists a risk that\nAtomOne experiences problems due to potential bugs. In the case of serious\nproblems, validators should stop operating the network immediately.\nCoordination with validators will happen in the #testnet-private channel of the\nAtomOne Community Discord to create and execute a contingency plan.\n\n## Governance votes\n\nThe following items summarize the voting options and what it means for this\nproposal:\n\nYES - You agree that the AtomOne chain should be updated with this release.\n\nNO - You disagree that the AtomOne chain should be updated with this release.\n\nABSTAIN - You wish to contribute to the quorum but you formally decline to vote\neither for or against the proposal.\n",
+  "title": "AtomOne v4.2 Upgrade"
+}
